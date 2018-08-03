@@ -1,0 +1,10 @@
+\BOOKMARK [1][-]{section.1}{Preliminaries}{}% 1
+\BOOKMARK [1][-]{section.2}{Achieving exact fairness and differential privacy is impossible}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Defining approximate fairness}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Approximate fairness with differentially privacy}{}% 4
+\BOOKMARK [1][-]{section.4}{Approximately fair correction with differentially private linear programs}{}% 5
+\BOOKMARK [1][-]{section.5}{A polynomial time algorithm for approximately fair and private classification}{}% 6
+\BOOKMARK [1][-]{section.6}{Privatizing Woodworth et. al. \(2017\)}{}% 7
+\BOOKMARK [2][-]{subsection.6.1}{Brief summary}{section.6}% 8
+\BOOKMARK [1][-]{section.7}{Privatizing first}{}% 9
+\BOOKMARK [1][-]{section.8}{Appendix}{}% 10
