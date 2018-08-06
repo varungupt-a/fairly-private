@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6745 64-bit) (preloaded format=pdflatex 2018.8.3)  6 AUG 2018 13:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6745 64-bit) (preloaded format=pdflatex 2018.8.3)  6 AUG 2018 13:42
 entering extended mode
 **./main.tex
 (main.tex
@@ -1420,15 +1420,26 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 10.95pt on input line 60.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 67.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 79.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 79.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 5.5pt on input line 79.
+(Font)              scaled to size 9.0pt on input line 68.
+! Undefined control sequence.
+<recently read> \X 
+                   
+l.71 ...istribution $D$ over the data universe $\X
+                                                  $ containing labeled examp...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-Overfull \hbox (6.93005pt too wide) detected at line 92
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 9.0pt on input line 85.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 85.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 5.5pt on input line 85.
+
+Overfull \hbox (6.93005pt too wide) detected at line 98
 []\LMS/ntxsy/m/n/9 f\OML/nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x\LM
 S/ntxsy/m/n/9 º \U/ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 1\LMS/ntxsy/m
 /n/9 j\OML/nxlmi/m/it/9 a \U/ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 1\O
@@ -1440,7 +1451,7 @@ nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x[]\LMS/ntxsy/m/n/9 º
  []
 
 
-Overfull \hbox (32.20604pt too wide) detected at line 116
+Overfull \hbox (32.20604pt too wide) detected at line 122
 \U/ntxmia/m/it/9  \LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 º \OT1/
 LinuxLibertineT-TLF/m/n/9 :\U/ntxmia/m/it/9 = [] \LMS/ntxsy/m/n/9 j\OML/nxlmi/m
 /it/9 []\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 º   \OML/nxlmi/m
@@ -1455,9 +1466,17 @@ m/it/9  or \U/ntxmia/m/it/9  []\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 h\LMS/ntxsy
 [1.1{C:/Users/dhamm/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 ]
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 218.
+Overfull \hbox (21.85857pt too wide) in paragraph at lines 131--132
+\OT1/LinuxLibertineT-TLF/m/n/9 (-20) 1\LMS/ntxsy/m/n/9 j\OML/nxlmi/m/it/9 y \U/
+ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 (-20) 1\OML/nxlmi/m/it/9 ; a \U/
+ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 (-20) 1\LMS/ntxsy/m/n/9 gj$ \T1/
+LinuxLibertineT-TLF/m/n/9 (-20) has sen-si-tiv-ity $[]\LMS/ntxsy/m/n/9 ¹[]\OML/
+nxlmi/m/it/9 ; []; [] \U/ntxmia/m/it/9 ý []\OML/nxlmi/m/it/9 ; [] \U/ntxmia/m/i
+t/9 ý
+ []
 
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+(Font)              scaled to size 9.0pt on input line 220.
 
 Package Fancyhdr Warning: \headheight is too small (13.0pt): 
  Make it at least 20.46953pt.
@@ -1465,16 +1484,16 @@ Package Fancyhdr Warning: \headheight is too small (13.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2.2]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 252.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 258.
  (C:\Users\dhamm\AppData\Roaming\MiKTeX\2.9\tex\latex\bbm\ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
 
 LaTeX Font Warning: Font shape `U/bbm/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 252.
+(Font)              size <5> substituted on input line 258.
 
 
-Overfull \hbox (37.55972pt too wide) detected at line 254
+Overfull \hbox (37.55972pt too wide) detected at line 260
 [] [] [] \OML/nxlmi/m/it/9 X[] \U/ntxmia/m/it/9 = [] [] [] \OML/nxlmi/m/it/9 n\
 LMS/ntxsy/m/n/9 ¹[]   []º \U/ntxmia/m/it/9 ý []\LMS/ntxsy/m/n/9 »\OML/nxlmi/m/i
 t/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x\LMS/ntxsy/m/n/9 º \U/ntxmia/m/it/9 <
@@ -1483,7 +1502,7 @@ t/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x\LMS/ntxsy/m/n/9 º \U/ntxmia/m/it/9 <
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 277.
+(hyperref)                removing `\\' on input line 283.
 
 [3.3]
 
@@ -1496,11 +1515,11 @@ Package Fancyhdr Warning: \headheight is too small (13.0pt):
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 304.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 304.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
  (main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 304.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 304.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 7895AD3093227E1CC75A3D9FD276248C;2615.
 
@@ -1510,13 +1529,13 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 19544 strings out of 492973
- 298306 string characters out of 3135933
- 432563 words of memory out of 3000000
+ 19555 strings out of 492973
+ 298536 string characters out of 3135933
+ 433563 words of memory out of 3000000
  22635 multiletter control sequences out of 15000+200000
- 173854 words of font info for 299 fonts, out of 3000000 for 9000
+ 175989 words of font info for 307 fonts, out of 3000000 for 9000
  1302 hyphenation exceptions out of 8191
- 60i,12n,94p,841b,422s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 60i,12n,94p,841b,412s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\dhamm\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\public\bbm\dpi600\b
 bm9.pk>{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/libertine/lbt
 n_25tcsq.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/newtx/l
@@ -1546,7 +1565,7 @@ ts/txsyc.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/newt
 x/txsys.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/newtx
 /zxlr.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/newtx/z
 xlri.pfb>
-Output written on main.pdf (4 pages, 618743 bytes).
+Output written on main.pdf (4 pages, 619792 bytes).
 PDF statistics:
  192 PDF objects out of 1000 (max. 8388607)
  16 named destinations out of 1000 (max. 500000)

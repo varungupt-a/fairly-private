@@ -59,12 +59,18 @@
 \maketitle
 \section{Preliminaries}
 
+
 % learnability A concept class $\mathcal{C}$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\dot,\dot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $X_d$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, log(1/\beta)), ... kasivi ref.\\
 
 
 
 \section{Achieving exact fairness and differential privacy is impossible}
-We start with the the continuous setting (which can be translated to the discrete sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (y_i,x_i,a_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may also contain $a_i$ to be used by a hypothesis $h$. We define a neighboring database as defined in [insert DP paper here by Talwar]:
+We start with the the continuous setting (which can be translated to the discrete sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (y_i,x_i,a_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may have arbitrary correlation with $a_i$, including containing a copy of it.
+
+\dk {... needs more work/ I'm not sure what to put}
+In this setting, we have full access to the continuous data distribution $D$ over the data universe $\X$ containing labeled examples $d_i = (y_i,x_i,a_i)$. Our goal is to output a hypothesis that minimizes error while adhering to some notion of fairness and is differentially private. The $Y_i$ are related to $X_i$ by some concept drawn from a concept class $\C$
+
+We define a neighboring database as defined in [insert DP paper here by Talwar]:
 
 {\bf Definition 1} ($\epsilon$-differential privacy). \\
 A randomized algorithm $\A$ is $\epsilon$-differentially \\private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs,
@@ -79,7 +85,7 @@ $$\Pr\{h(x) = 1 | a = 1, y = 1\} = \Pr\{h(x) = 1 | a=0, y=1\}$$
 $$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{x\in \mathcal{X}} |\Pr[D=x] - \Pr[D'=x]| \leq \delta$$
 
 {\bf Definition 4?} For ease of notation we define
-$$D_{ya} := \{d_i \in D | y_i = y, a_i = a \}$$
+$$D_{ya} := \{d_i \in D | y_i = y, a_i = a \}.$$
 
 {\bf Definition 5} Non-trivial hypothesis class. We say that a hypothesis class $\H$ is non-trivial if there exists $d_1, d_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
 
@@ -118,11 +124,11 @@ $$\Gamma(h) := \max_{y\in \{0,1\}}|\gamma_{y0}(h) - \gamma_{y1}(h)| \leq \alpha 
 
 When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. We define:
 
-$$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha$$
+$$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha.$$
 
 We now focus only on the equality of opportunity setting.
 
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity
+{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|Z_{10}|},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|Z_{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|Z_{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
 
 {\bf Proof 1}
 We examine two cases:
