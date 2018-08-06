@@ -55,10 +55,8 @@
 %Or just google stuff
 
 \title{Privacy $\cap$ Fairness}
-\author{Rachel Cummings, Varun Gupta, Dhamma Kimpara, Jamie Morgenstern}
+{\author{Rachel Cummings, Varun Gupta, \\Dhamma Kimpara, Jamie Morgenstern}}
 \maketitle
-
-
 \section{Preliminaries}
 
 % learnability A concept class $\mathcal{C}$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\dot,\dot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $X_d$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, log(1/\beta)), ... kasivi ref.\\
@@ -68,7 +66,8 @@
 \section{Achieving exact fairness and differential privacy is impossible}
 We start with the the continuous setting (which can be translated to the discrete sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (y_i,x_i,a_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may also contain $a_i$ to be used by a hypothesis $h$. We define a neighboring database as defined in [insert DP paper here by Talwar]:
 
-{\bf Definition 1} ($\epsilon$-differential privacy). A randomized algorithm $\A$ is $\epsilon$-differentially private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs,
+{\bf Definition 1} ($\epsilon$-differential privacy). \\
+A randomized algorithm $\A$ is $\epsilon$-differentially \\private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs,
 $$\Pr[\A(D)\in \S] \leq \exp(\epsilon)\Pr[\A(D')\in \S]$$
 The probability is taken over the random coins of $\A$.\\
 {\bf Definition 2} (Equal Opportunity). We say that a binary predictor $h$ satisfies equal opportunity with respect to $A$ and $Y$ if (need explicit form of database
@@ -128,9 +127,16 @@ We now focus only on the equality of opportunity setting.
 {\bf Proof 1}
 We examine two cases:
 
-Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. Let $z_0$ be replaced by $z_1$ then $\gamma^{Z'}_{1\neg a} = \gamma^Z_{1\neg a}$ but
+Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in Z_{10}$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
 
-$$\gamma_{1a}^Z(h) = \frac{1}{|Z_{1a}|} \sum_{Z_{1a}} h(x,a)$$
+$$\gamma_{10}^Z(h) = \frac{1}{|Z_{10}|} \sum_{Z_{10}} h(x,0)$$.
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z_{10}|} (h(x', 0) +\sum_{z \in Z_{10} \cup Z'_{10}} h(x, 0))$$.
+
+Then,
+
+$$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
+$$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
+$$ \leq \frac{1}{|Z_{10}|}  + \Gamma^{Z}(h) $$
 
 
 Case 2: neighboring database is not a change in entry within a subgroup. Thus deleting an entry in $Z_{1a}$ and add one to $Z_{1 \neg a}$.
@@ -250,7 +256,7 @@ Can also extend into a different norm for $u(Z,h)$ if we have a concentration of
 \section{Approximately fair correction with differentially private linear programs}
 Do DP-LP
 
-\section{A polynomial time algorithm for approximately fair and private classification}
+\section{A polynomial time algorithm \\for approximately fair and private classification}
 \clearpage
 
 Old stuff:
