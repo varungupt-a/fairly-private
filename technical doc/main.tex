@@ -139,7 +139,25 @@ $$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
 $$ \leq \frac{1}{|Z_{10}|}  + \Gamma^{Z}(h) $$
 
 
-Case 2: neighboring database is not a change in entry within a subgroup. Thus deleting an entry in $Z_{1a}$ and add one to $Z_{1 \neg a}$.
+Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( Z_{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
+
+$$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
+$$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+Similarly, 
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{Z'_{10}} h(x)$$
+$$ = \frac{1}{|Z'_{10}|} (\sum_{Z_{10}} h(x)+h(z_0))= \frac{1}{|Z_{10}|+1} (\sum_{Z_{10}} h(x)+h(z_0))$$
+
+Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for details on include here? Refactor and add maxes}), $$|\Gamma^{Z'}- \Gamma^{Z}| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
+
+
+$$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
+Let $\Delta_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\Delta_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
+
+$$\Delta_{10} = \frac{1}{|Z_{10}|+1} (\sum_{Z_{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
+$$\Delta_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+\dk {insert template}
+
+$$|\Gamma^{Z'}- \Gamma^{Z}| = \Delta_{10} + \Delta_{11}= \frac{\gamma_{10}}{|Z_{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
 
 {\bf Proof 2}
 
