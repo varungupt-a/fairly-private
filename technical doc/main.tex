@@ -6,7 +6,6 @@
 \usepackage{hyperref}
 \usepackage{natbib}
 \usepackage{bbm}
-\usepackage{algorithm}
 \newcommand{\dk}[1]{\textcolor{red}{[DK: #1]}}
 
 
@@ -56,10 +55,8 @@
 %Or just google stuff
 
 \title{Privacy $\cap$ Fairness}
-\author{Rachel Cummings, Varun Gupta, Dhamma Kimpara, Jamie Morgenstern}
+{\author{Rachel Cummings, Varun Gupta, \\Dhamma Kimpara, Jamie Morgenstern}}
 \maketitle
-
-
 \section{Preliminaries}
 
 % learnability A concept class $\mathcal{C}$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\dot,\dot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $X_d$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, log(1/\beta)), ... kasivi ref.\\
@@ -69,7 +66,8 @@
 \section{Achieving exact fairness and differential privacy is impossible}
 We start with the the continuous setting (which can be translated to the discrete sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (y_i,x_i,a_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may also contain $a_i$ to be used by a hypothesis $h$. We define a neighboring database as defined in [insert DP paper here by Talwar]:
 
-{\bf Definition 1} ($\epsilon$-differential privacy). A randomized algorithm $\A$ is $\epsilon$-differentially private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs,
+{\bf Definition 1} ($\epsilon$-differential privacy). \\
+A randomized algorithm $\A$ is $\epsilon$-differentially \\private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs,
 $$\Pr[\A(D)\in \S] \leq \exp(\epsilon)\Pr[\A(D')\in \S]$$
 The probability is taken over the random coins of $\A$.\\
 {\bf Definition 2} (Equal Opportunity). We say that a binary predictor $h$ satisfies equal opportunity with respect to $A$ and $Y$ if (need explicit form of database
@@ -113,12 +111,12 @@ Define $Z_{ya} := \{z_i \in Z | y_i = y, a_i = a \}$ and
 $$\gamma_{ya}^Z(h) = \frac{1}{|Z_{ya}|} \sum_{Z_{ya}} h(x,a)$$
 
 
-{\bf Definition 6} ($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on a sample $Z$ if (need explicit form of database).
+{\bf Definition 6} ($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on the population or on a sample $Z$ if, respectively.
 
-$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gamma_{y0}^Z(h) - \gamma_{y1}^Z(h)| \leq \alpha$$
+$$\Gamma(h) := \max_{y\in \{0,1\}}|\gamma_{y0}(h) - \gamma_{y1}(h)| \leq \alpha ~~ or ~~ \Gamma^Z(h) := \max_{y\in \{0,1\}}|\gamma_{y0}^Z(h) - \gamma_{y1}^Z(h)| \leq \alpha$$
 
 
-When $\alpha = 0$ we are in the exact fairness setting. To achieve an approximate analog to equality of opportunity in definition 2. We define:
+When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. We define:
 
 $$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha$$
 
@@ -126,7 +124,42 @@ We now focus only on the equality of opportunity setting.
 
 {\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity
 
-{\bf Proof}
+{\bf Proof 1}
+We examine two cases:
+
+Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in Z_{10}$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
+
+$$\gamma_{10}^Z(h) = \frac{1}{|Z_{10}|} \sum_{Z_{10}} h(x,0)$$.
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z_{10}|} (h(x', 0) +\sum_{z \in Z_{10} \cup Z'_{10}} h(x, 0))$$.
+
+Then,
+
+$$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
+$$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
+$$ \leq \frac{1}{|Z_{10}|}  + \Gamma^{Z}(h) $$
+
+
+Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( Z_{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
+
+$$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
+$$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+Similarly, 
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{Z'_{10}} h(x)$$
+$$ = \frac{1}{|Z'_{10}|} (\sum_{Z_{10}} h(x)+h(z_0))= \frac{1}{|Z_{10}|+1} (\sum_{Z_{10}} h(x)+h(z_0))$$
+
+Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for details on include here? Refactor and add maxes}), $$|\Gamma^{Z'}- \Gamma^{Z}| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
+
+
+$$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
+Let $\Delta_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\Delta_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
+
+$$\Delta_{10} = \frac{1}{|Z_{10}|+1} (\sum_{Z_{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
+$$\Delta_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+\dk {insert template}
+
+$$|\Gamma^{Z'}- \Gamma^{Z}| = \Delta_{10} + \Delta_{11}= \frac{\gamma_{10}}{|Z_{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+
+{\bf Proof 2}
 
 Construct $\delta$-close neighboring databases $D$ and $D'$ such that
 
@@ -161,7 +194,7 @@ $$\mathcal{A}^\epsilon : \text{Output hypothesis }h \in \mathcal{H} \text{ with 
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\Delta u(Z,h) = ||(\Delta\ell,\Delta{\Gamma})||_a \approx O(||1/n,1/|Z_{10}|+1/|Z_{11}|||_1)$$
+$$\Delta u(Z,h) = ||(\Delta\ell,\Delta{\Gamma})||_1 \approx O(||1/n,1/|Z_{10}|+1/|Z_{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -174,6 +207,7 @@ Need proof?
 
 Note that except for when $|\H|$ is polynomial, the exponential mechanism does not necessarily yield a polynomial time algorithm.
 
+\dk{refactor constants}
 {\bf Theorem 1}(Generic private fair learner) For all $d \in \mathbb{N}$, any concept class $\mathcal{C}_d$ whose cardinality is at most $\exp(\text{poly}(d))$ is privately fairly agnostically learnable using $\H_d = \C_d$. More precisely, the learner uses $n = ..$ labeled examples from $D$, where $\epsilon, \alpha$, and $\beta$ are parameters of the private learning.
 %\dk{Q: ``the domain and range of the concepts in $\mathcal{C}$ is understood to be ensembles $X = \{X_d\}_{d\in \mathbb{N}}$ and $Y = \{Y_d\}_{d\in \mathbb{N}}$, where the representation of elements $X_d, Y_d$ is of size at most $d$''}
 
@@ -181,7 +215,7 @@ Note that except for when $|\H|$ is polynomial, the exponential mechanism does n
 
 Now we show that the utility condition is also satisfied. Let the event $E = \{\A_{\epsilon} = h \text{ with } u(h) > OPT + \alpha\}$. We need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
 
-$$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{p}$$.
+$$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
 
 By Chernoff-Hoeffding bounds (insert appendix ref. see below proof for now),
 
@@ -212,7 +246,7 @@ Where the inequality holds for $n \geq $. $\square$
 
 $$Pr[|\frac{\sum_i X_i}{n} - \mu| > \rho] \leq 2\exp(\frac{-2\rho^2n}{(b-a)^2})$$
 
-\dk {needs checking}
+\dk {needs checking, refactor constants}
 Chernoff bounds for $u(Z,h)$:
 
 Let $$X_i^a = n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y]$$
@@ -228,11 +262,11 @@ $$=||(\Gamma^Z(h), \ell^Z(h)||_{1} = u(Z,h)$$
 
 Hence
 
-$$\Pr[|\frac{1}{n} \sum_Z X_i^a - \mathbb{E}[X_i^a]| > \rho] \leq 2\exp(\frac{-2\rho^2n}{(2-0)^2})$$
+$$\Pr[|\frac{1}{n} \sum_Z X_i^a - \mathbb{E}[X_i^a]| > \rho] \leq 2\exp(\frac{-2\rho^2n}{(2-(-1))^2})$$
 
 By union bound (over the choice of $a \in \{0,1\}$
 
-$$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 4\exp(\frac{-\rho^2n}{2})$$
+$$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 4\exp(\frac{-2\rho^2n}{9})$$
 
 \dk {Note: can do extension into other definitions of fairness (with constant factor).
 Can also extend into a different norm for $u(Z,h)$ if we have a concentration of measure theorem for the different norm. There are also random matrix concentration bounds (can do concentration for all functions of the confusion matrix?)}
@@ -240,7 +274,7 @@ Can also extend into a different norm for $u(Z,h)$ if we have a concentration of
 \section{Approximately fair correction with differentially private linear programs}
 Do DP-LP
 
-\section{A polynomial time algorithm for approximately fair and private classification}
+\section{A polynomial time algorithm \\for approximately fair and private classification}
 \clearpage
 
 Old stuff:
