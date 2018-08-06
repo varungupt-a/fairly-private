@@ -32,7 +32,7 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
-    filecolor=magenta,      
+    filecolor=magenta,
     urlcolor=blue,
 }
 
@@ -46,7 +46,7 @@
 \newenvironment{problem}[2][Problem]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
 %If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
- 
+
 \begin{document}
 
 %\renewcommand{\qedsymbol}{\filledbox}
@@ -54,7 +54,7 @@
 %Binary operators: http://www.access2science.com/latex/Binary.html
 %General help: http://en.wikibooks.org/wiki/LaTeX/Mathematics
 %Or just google stuff
- 
+
 \title{Privacy $\cap$ Fairness}
 \author{Rachel Cummings, Varun Gupta, Dhamma Kimpara, Jamie Morgenstern}
 \maketitle
@@ -69,11 +69,11 @@
 \section{Achieving exact fairness and differential privacy is impossible}
 We start with the the continuous setting (which can be translated to the discrete sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (y_i,x_i,a_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may also contain $a_i$ to be used by a hypothesis $h$. We define a neighboring database as defined in [insert DP paper here by Talwar]:
 
-{\bf Definition 1} ($\epsilon$-differential privacy). A randomized algorithm $\A$ is $\epsilon$-differentially private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs, 
+{\bf Definition 1} ($\epsilon$-differential privacy). A randomized algorithm $\A$ is $\epsilon$-differentially private if for all neighboring databases $D, D'$, and for all sets $\S$ of outputs,
 $$\Pr[\A(D)\in \S] \leq \exp(\epsilon)\Pr[\A(D')\in \S]$$
 The probability is taken over the random coins of $\A$.\\
 {\bf Definition 2} (Equal Opportunity). We say that a binary predictor $h$ satisfies equal opportunity with respect to $A$ and $Y$ if (need explicit form of database
-$$\Pr\{h(x) = 1 | a = 1, y = 1\} = \Pr\{h(x) = 1 | a=0, y=1\}$$ 
+$$\Pr\{h(x) = 1 | a = 1, y = 1\} = \Pr\{h(x) = 1 | a=0, y=1\}$$
 
 
 {\bf Definition 3} (Statistical distance and $\delta$-closeness). Databases  $D$ and $D'$ (distributions over $\mathcal{X}$) are $\delta$-close if the statistical distance between their distributions is at most $\delta$, i.e.,
@@ -99,14 +99,14 @@ where the last inequality is due to the assumption that $h(x_1) > h(x_0)$. Hence
 
 $$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\epsilon)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 
-Which violates the definition of privacy in definition 1. $\square$ 
+Which violates the definition of privacy in definition 1. $\square$
 \vspace{0.5cm}
 
 {\bf Lemma 2} $(\epsilon, \delta)$-DP and fairness is impossible. Need proof
 
 
 \subsection{Defining approximate fairness}
-We now turn to the approximate fairness and define analogs of the definitions in the exact fairness setting. 
+We now turn to the approximate fairness and define analogs of the definitions in the exact fairness setting.
 
 Define $Z_{ya} := \{z_i \in Z | y_i = y, a_i = a \}$ and
 
@@ -124,9 +124,9 @@ $$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha$$
 
 We now focus only on the equality of opportunity setting.
 
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity 
+{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity
 
-{\bf Proof} 
+{\bf Proof}
 
 Construct $\delta$-close neighboring databases $D$ and $D'$ such that
 
@@ -167,10 +167,10 @@ $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
 
 
-This algorithm is the exponential mechanism in McSherry and Talwar, and so it is differentially private. 
+This algorithm is the exponential mechanism in McSherry and Talwar, and so it is differentially private.
 
 {\bf Lemma 2} The algorithm $\A_\epsilon$ is $\epsilon$-differentially private.
-Need proof? 
+Need proof?
 
 Note that except for when $|\H|$ is polynomial, the exponential mechanism does not necessarily yield a polynomial time algorithm.
 
@@ -189,12 +189,12 @@ By Chernoff-Hoeffding bounds (insert appendix ref. see below proof for now),
 
 $$\Pr[|u(Z,h) - u(D,h)| \geq \rho] \leq 4\exp(\frac{-\rho^2n}{2})$$
 
-for all hypotheses $h \in \H_d$. Hence, 
+for all hypotheses $h \in \H_d$. Hence,
 
 $$\Pr[|u(Z,h) - u(D,h)| \geq \rho \text{ for some } h \in \H_d] \leq 4|\H_d|\exp(\frac{-\rho^2n}{2})$$
 
 \dk{need following proof? relatively similar to kasiviswanathan what can we learn privately}
-Now we analyze $\A_\epsilon(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\epsilon(Z) = h]$ is 
+Now we analyze $\A_\epsilon(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\epsilon(Z) = h]$ is
 
 $$\frac{\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h'))} $$
 $$= \exp(-\frac{\epsilon}{2\Delta u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
@@ -206,7 +206,7 @@ Setting $\rho = \alpha/3$. If $u(D,h) \geq OPT + \alpha$ then $|u(D,h) - u(Z,h)|
 
 $$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\epsilon\cdot\alpha}{6\Delta u})) \leq \beta$$.
 
-Where the inequality holds for $n \geq $. $\square$ 
+Where the inequality holds for $n \geq $. $\square$
 
 {\bf Theorem} (Real-valued Additive Chernoff-Hoeffding Bound). Let $X_1,...,X_d$ be i.i.d. random variables with $\mathbb{E}[X_i] = \mu$ and $a \leq X_i \leq b$ for all $i$. Then for every $\rho > 0$,
 
@@ -260,7 +260,7 @@ This paper gives a two step algorithm in a learning model with finite samples an
 
 
 \section{Privatizing first}
-With the finite sample setting and also the case that we cannot achieve exact fairness privately, this line of inquiry now seems to be fruitful. It would not take long to analyze the effect of first privatizing via synthetic data or adding noise to the training data (smallDB etc.) and then training a fair classifier. 
+With the finite sample setting and also the case that we cannot achieve exact fairness privately, this line of inquiry now seems to be fruitful. It would not take long to analyze the effect of first privatizing via synthetic data or adding noise to the training data (smallDB etc.) and then training a fair classifier.
 
 \section{Appendix}
 p-norm discussion from exp mech?
