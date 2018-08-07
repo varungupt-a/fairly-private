@@ -6,6 +6,7 @@
 \usepackage{hyperref}
 \usepackage{natbib}
 \usepackage{bbm}
+\usepackage{enumitem}
 \newcommand{\dk}[1]{\textcolor{red}{[DK: #1]}}
 \newcommand{\vg}[1]{\textcolor{blue}{[VG: #1]}}
 
@@ -24,10 +25,14 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 
-\newcommand{\del}{\delta}
-\newcommand{\eps}{\epsilon}
 
+\newcommand{\eps}{\epsilon}
+\newcommand{\zt}{\zeta}
 \newcommand{\zya}{\Z_{ya}}
+
+\newcommand{\g}[1]{\gamma_{#1}(h)}
+\newcommand{\gz}[1]{\gamma_{#1}^Z(h)}
+
 \iffalse
 \newcommand{\Z}[1]{Z_{#1}}
 \newcommand{\D}[1]{D_{#1}}
@@ -78,11 +83,16 @@
 %Or just google stuff
 
 \title{Privacy $\cap$ Fairness}
-{\author{Rachel Cummings, Varun Gupta, \\Dhamma Kimpara, Jamie Morgenstern}}
+{\author{Rachel Cummings, Varun Gupta, Dhamma Kimpara, Jamie Morgenstern}}
 \maketitle
-\section{Preliminaries}
-\dk{TODO: model, what are we given, what do we have access to?}
 
+
+\section{Introduction}
+\subsection{Related Work}
+\subsection{Our Contributions}
+We present two contributions to the study of the intersection of differential privacy and fairness in machine learning. First, we show that it is impossible to achieve both differential privacy and exact fairness, as we will define below. We then consider a notion of approximate fairness and show that a private learner is able to accurately achieve fairness with reasonable sample complexity. \vg{Finally, we present a polynomial time algorithm to achieve the differentially private and approximately fair scheme outlined above and show its empirical performance on certain datasets.}
+
+\section{Preliminaries}
 We consider the interaction of differential privacy and fairness and look at two settings, discrete and continuous. \\ \\
 We begin with notation of continuous setting:
 
@@ -96,16 +106,15 @@ We consider differential privacy in two settings, discrete and continuous.
 We first define the neighboring relation for differential privacy in the continuous setting.
 
 \begin{defn}
-	($\del$-closeness). Databases  $D$ and $D'$ (distributions over $\mathcal{X}$) are $\del$-close if the statistical distance between their distributions is at most $\del$, i.e.,
+	($\zt$-closeness). Databases  $D$ and $D'$ (distributions over $\mathcal{X}$) are $\zt$-close if the statistical distance between their distributions is at most $\zt$, i.e.,
 
-	$$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{d\in \mathcal{X}} |\Pr[D=d] - \Pr[D'=d]| \leq \del.$$
+	$$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{d\in \mathcal{X}} |\Pr[D=d] - \Pr[D'=d]| \leq \zeta.$$
 \end{defn}
 
 We now give a neighboring relation in terms of a finite sample \vg{from privacy book - Dwork Roth cite?}.
-\dk {following definition currently incorrect. $z_i$ is not the frequency of an entry}
-\begin{defn}
-Databases $Z$ and $Z'$ are neighboring if the $\ell_1$ distance between them is at most one, i.e.,
-$$ \|Z - Z'\|_1 = \sum_{i=1}^{|\X|} |z_i - z'_i| \leq 1.$$
+
+\begin{defn} ref(kasivi?)
+Samples (multisets) $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for exactly one $\i \in [n]$ (i.e. the Hamming distancebetween $Z$ and $Z'$ is 1).
 \end{defn}
 
 \begin{defn}
@@ -123,7 +132,7 @@ The first fairness setting we consider is exact fairness. Recall that in this co
 \end{defn}
 
 \subsection{Approximate Fairness}
-We now turn to the approximate fairness setting with and define analogous definitions from the exact fairness setting. We now have access to a finite sample $Z$ consisting of entries drawn from an arbitrary distribution over $\X$.
+We now turn to the approximate fairness setting with and define analogous definitions from the exact fairness setting. We now have access to a finite sample $Z$ consisting of entries drawn iid. from an arbitrary distribution $D$ over $\X$.
 
 Define $\zya := \{z_i \in Z | y_i = y, a_i = a \}$ and
 
@@ -133,13 +142,13 @@ $$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x,a)$$
 \begin{defn}
 	($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on the population or on a sample $Z$ if, respectively.
 
-$$\Gamma(h) := \max_{y\in \{0,1\}}|\gamma_{y0}(h) - \gamma_{y1}(h)| \leq \alpha ~~ or $$
-$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gamma_{y0}^Z(h) - \gamma_{y1}^Z(h)| \leq \alpha$$
+$$\Gamma(h) := \max_{y\in \{0,1\}}|\g{y0} - \g{y1}| \leq \alpha ~~ or $$
+$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gz{y0} - \gz{y1}| \leq \alpha$$
 
 \end{defn}
 When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. We define:
 
-$$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha.$$
+$$\Gamma^Z(h) := |\gz{10} - \gz{11}| \leq \alpha.$$
 
 We now focus on the equality of opportunity setting.
 \subsection{Preliminaries from learning theory}
@@ -147,11 +156,18 @@ We now focus on the equality of opportunity setting.
 Formulate finite sample setting with arbitrary distribution D over X,Y. State goal of the learner. State first traditional error minimization. Talk about reformulation into also considering fairness. \dk {do we need to factor a weight $\lambda$ into the new error function? ie. $\ell + \lambda \Gamma$}
 
 \begin{defn}
-	(Agnostic PAC Learning) A concept class $\mathcal{C}$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\dot,\dot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $X_d$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, log(1/\beta)),$ ... kasivi ref.
+	(Agnostic PAC Learning) A concept class $\C$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\cdot,\cdot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $\X$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, \log(1/\beta))$, $z_i = (x_i, a_i, y_i)$ drawn i.i.d. from D for $i \in [n]$, algorithm $\A$ outpus a hypothesis $h \in \H$ satisfying
+	$$\Pr[err(h) \leq OPT + \alpha] \geq 1-\beta.$$
 
 \end{defn}
 \begin{defn}
-	(Private Agnostic PAC Learning)
+	(Approximately Fair and Private Agnostic PAC Learning)
+	Let $d, \alpha, \beta$ be as in Definition 1.7 and $\eps > 0$. Concept class $\C$ is (inefficiently) approximately fair and private agnostically learnable using hypothesis class $\H$ if there exists an algorithm $\A$ that takes inputs $\eps, \alpha, \beta, Z$, where $|Z|=n$ is polynomial in $1/\eps, d, 1\alpha, \log(1/\beta)$ and satisfies \dk {edit fairness criterion}
+	\begin{enumerate}
+		\item {[}Fairness{]} Algorithm $\A$ satisfies $\Pr[\Gamma(h) \leq OPT + \alpha] \geq 1-\beta$;
+		\item {[}Privacy{]} For all $\eps>0$, algorithm $\A(\eps, \cdot, \cdot, \cdot)$ is $\eps$-differentially private;
+		\item {[}Utility{]} Algorithm $\A$ agnostically PAC learns $\C$ using $H$.
+	\end{enumerate}
 \end{defn}
 
 \section{Achieving exact fairness and differential privacy is impossible}
@@ -175,10 +191,10 @@ In this setting, we have full access to the continuous data distribution $D$ ove
 \dk{ (currently in weaker eq. of opp. fairness notion, can also be done for stronger notions.) TODO: general proof of impossibility given a `reasonable' fairness constraint on the confusion matrix? Seems like it would be difficult since need to construct neighboring databases. Hence TODO: proof for eq. odds? or say easy extension into other `reasonable' fairness notions.}
 
 \begin{proof}
-	Let $D, D'$ be $\del$-close and suppose that the fair (as in definition 2) hypotheses $h$ is released by algorithm $\mathcal{A}$ on input of $D$. Let $d(\cdot)$ be the measure as defined by the distribution $D$. Pick $d_1, d_0 \in D_{11}$ such that $h(x_1) > h(x_0)$ and assume that $d_1, d_0 \in supp(D) \text{ and } supp(D')$. Let $\del < \min_{i,D,D'}(d_{D}(d_i))$ $D'$ be a database with $\del$ more probability mass of $d_1$ and $\del$ less mass of $d_0$. Then recalling that $d_i = (y_i, x_i, a_i)$:
+	Let $D, D'$ be $\zt$-close and suppose that the fair (as in definition 2) hypotheses $h$ is released by algorithm $\mathcal{A}$ on input of $D$. Let $d(\cdot)$ be the measure as defined by the distribution $D$. Pick $d_1, d_0 \in D_{11}$ such that $h(x_1) > h(x_0)$ and assume that $d_1, d_0 \in supp(D) \text{ and } supp(D')$. Let $\zt < \min_{i,D,D'}(d_{D}(d_i))$ $D'$ be a database with $\zt$ more probability mass of $d_1$ and $\zt$ less mass of $d_0$. Then recalling that $d_i = (y_i, x_i, a_i)$:
 
-$$\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \int_{D_{11}}h(x)dx + \frac{\del}{d(D_{11})} h(x_1) - \frac{\del}{d(D_{11})} h(x_0) $$
-$$= \Pr_{D}\{h(x) = 1 | a = 1, y=1\} + \frac{\del}{d(D_{11})} (h(x_1) - h(x_0))$$
+$$\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \int_{D_{11}}h(x)dx + \frac{\zt}{d(D_{11})} h(x_1) - \frac{\zt}{d(D_{11})} h(x_0) $$
+$$= \Pr_{D}\{h(x) = 1 | a = 1, y=1\} + \frac{\zt}{d(D_{11})} (h(x_1) - h(x_0))$$
 $$>  \Pr_{D}\{h(x) = 1 | a = 1, y=1\}$$
 
 where the last inequality is due to the assumption that $h(x_1) > h(x_0)$. Hence hypothesis $h$ is unfair when applied to database $D'$ and cannot be released by the exactly fair mechanism $\A$ on input of database $D'$. So
@@ -188,7 +204,7 @@ $$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\eps)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 Which violates the definition of privacy in definition 1.
 \end{proof}
 
-{\bf Lemma 2} $(\eps, \del)$-DP and fairness is impossible. Need proof
+{\bf Lemma 2} $(\eps, \zt)$-DP and fairness is impossible. Need proof
 
 
 
@@ -206,7 +222,7 @@ $$\gamma_{10}^{Z'}(h) = \frac{1}{|\z10|} (h(x', 0) +\sum_{z \in \z10 \cup Z'_{10
 Then,
 
 $$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
-$$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
+$$ = \gamma_{10}^{Z'}(h) - \gz{11} $$
 $$ \leq \frac{1}{|\z10|}  + \Gamma^{Z}(h) $$
 
 
@@ -222,20 +238,20 @@ Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for 
 
 
 $$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
-Let $\del_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\del_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
+Let $\zt_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\zt_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
 
-$$\del_{10} = \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
-$$\del_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+$$\zt_{10} = \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
+$$\zt_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
 \dk {insert template}
 
-$$|\Gamma^{Z'}- \Gamma^{Z}| = \del_{10} + \del_{11}= \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+$$|\Gamma^{Z'}- \Gamma^{Z}| = \zt_{10} + \zt_{11}= \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
 
 {\bf Proof 2}
 
-Construct $\del$-close neighboring databases $D$ and $D'$ such that
+Construct $\zt$-close neighboring databases $D$ and $D'$ such that
 
-$$\Pr[D'=d_{10}] - \Pr[D=d_{10}] = \del$$
-$$\Pr[D=d_{11}] - \Pr[D'=d_{11}] = \del$$
+$$\Pr[D'=d_{10}] - \Pr[D=d_{10}] = \zt$$
+$$\Pr[D=d_{11}] - \Pr[D'=d_{11}] = \zt$$
 
 
 
@@ -243,14 +259,14 @@ and assume that $d_0, d_1 \in \text{supp}(D')$ and $\in \text{supp}(D)$. Let $d_
 
 $$\Gamma^{D'}(h) = \gamma_{10}^{D'}(h) - \gamma_{11}^{D'}(h)$$
 $$= \int_{D'_{10}}h(x)dx - \int_{D'_{11}}h(x)dx$$
-$$= \int_{D_{10}}h(x)dx + \frac{\del}{dD_{10}}h(x_{10}) - \int_{D'_{11}}h(x)dx - \frac{\del}{dD_{11}}h(x_{11})$$
-$$\leq \Gamma^{D}(h) + \frac{\del}{dD_{10}} + \frac{\del}{dD_{11}}$$
+$$= \int_{D_{10}}h(x)dx + \frac{\zt}{dD_{10}}h(x_{10}) - \int_{D'_{11}}h(x)dx - \frac{\zt}{dD_{11}}h(x_{11})$$
+$$\leq \Gamma^{D}(h) + \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
 
 where $dD_{1a}$ is the measure of the set $D_{1a}, a \in \{0,1\}$. Hence
-$$\del\Gamma = \frac{\del}{dD_{10}} + \frac{\del}{dD_{11}}$$
+$$\zt\Gamma = \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
 
-\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\del$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
-Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\del = 1/n$)}
+\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\zt$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
+Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\zt = 1/n$)}
 
 \section{Approximate fairness with differentially privacy}
 
@@ -259,13 +275,13 @@ Q: should we do this proof in finite sample context or just translate this to th
 We now turn to the finite sample setting where we release a hypothesis that minimizes the training error. Our goal is now approximate fairness. We use the exponential mechanism in the same way as it is used in private PAC learning. Defining the sample as $Z$, $|Z| = n$ and $\Gamma^{Z}$ as our in-sample fairness measure, we give the algorithm:
 $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{ with probability proportional to }$$
 \begin{align}
-\exp(-\frac{\eps \cdot u(Z,h)}{2\del u})
+\exp(-\frac{\eps \cdot u(Z,h)}{2\zt u})
 \end{align}
 
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\del u(Z,h) = ||(\del\ell,\del{\Gamma})||_1 \approx O(||1/n,1/|\z10|+1/|Z_{11}|||_1)$$
+$$\zt u(Z,h) = ||(\zt\ell,\zt{\Gamma})||_1 \approx O(||1/n,1/|\z10|+1/|Z_{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -301,15 +317,15 @@ $$\Pr[|u(Z,h) - u(D,h)| \geq \rho \text{ for some } h \in \H_d] \leq 4|\H_d|\exp
 \dk{need following proof? relatively similar to kasiviswanathan what can we learn privately}
 Now we analyze $\A_\eps(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\eps(Z) = h]$ is
 
-$$\frac{\exp(-\frac{\eps}{2\del u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\eps}{2\del u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\eps}{2\del u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\eps}{2\del u} \cdot u(Z,h'))} $$
-$$= \exp(-\frac{\eps}{2\del u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
-$$\leq \exp(-\frac{\eps}{2\del u}(u(Z,h) - (OPT + \rho)))$$
+$$\frac{\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h'))} $$
+$$= \exp(-\frac{\eps}{2\zt u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
+$$\leq \exp(-\frac{\eps}{2\zt u}(u(Z,h) - (OPT + \rho)))$$
 
-Hence the probability that $\A_\eps(Z)$ outputs a hypothesis $h \in \H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most $|\H_d|\exp(-\frac{\eps\cdot\rho}{2\del u})$
+Hence the probability that $\A_\eps(Z)$ outputs a hypothesis $h \in \H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most $|\H_d|\exp(-\frac{\eps\cdot\rho}{2\zt u})$
 
 Setting $\rho = \alpha/3$. If $u(D,h) \geq OPT + \alpha$ then $|u(D,h) - u(Z,h)| \geq \alpha/3$ or $u(Z,h) \geq OPT + 2\alpha/3$. Hence
 
-$$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\eps\cdot\alpha}{6\del u})) \leq \beta$$.
+$$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\eps\cdot\alpha}{6\zt u})) \leq \beta$$.
 
 Where the inequality holds for $n \geq $. $\square$
 
