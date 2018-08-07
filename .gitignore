@@ -1,9 +1,4 @@
-main.aux
-main.pdf
-main.log
-main.out
-main.fdb_latexmk
-main.synctex.gz
-main.fls
+main.*
+!main.tex
 .dropbox
 desktop.ini
