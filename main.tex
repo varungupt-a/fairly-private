@@ -121,7 +121,7 @@ Alternatively we could define a finite sample as a multi-set, and use the symmet
 For each of these notions, the definition of differential privacy remains the same. That is, a randomized algorithm is private if neighboring databases induce close distributions on its outcomes:
 
 \begin{defn}
-($\eps$-differential privacy). A randomized algorithm $\A$ is $\eps$-differentially private if for all pairs of neighboring databases $D,D'$ and for all sets $\S$ of outputs,
+($\eps$-differential privacy). \vg{ref Dwork} A randomized algorithm $\A$ is $\eps$-differentially private if for all pairs of neighboring databases $D,D'$ and for all sets $\S$ of outputs,
 	$$\Pr[\A(D)\in \S] \leq \exp(\eps)\Pr[\A(D')\in \S].$$
 \end{defn}
 \dk{need to talk about composition/post-processing theorems and/or exponenetial mechanism?}
@@ -222,7 +222,9 @@ $$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\eps)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 which violates the constraint of privacy in Definition 1.
 \end{proof}
 
-{\bf Lemma 2} $(\eps, \zt)$-DP and fairness is impossible. Need proof
+\begin{lemma}
+  $(\eps, \zt)$-DP and fairness is impossible. \vg{need proof?}
+\end{lemma}
 
 
 
@@ -230,22 +232,27 @@ which violates the constraint of privacy in Definition 1.
 {\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1}).$
 
 \vg{Proof 1 is in the finite sample setting and Proof 2 is in the distributional setting, not sure which of the two to keep. Finite sample is easier/more applicable but the distributional is general/converted easily to finite. We're leaning towards keeping finite sample but aren't sure }
-{\bf Proof 1}
-We examine two cases:
 
-Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in \z{10}$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
+\begin{proof}
+We examine two cases for neighboring databases $Z, Z'$:
+
+Case 1: The difference in databases is in an entry within a subgroup (i.e. within $Z_{1a}$ and $Z_{1a}'$ for $a \in \{0, 1\}$). WLOG let $a = 0$. Let the differing entries be called $z \in \z{10}$ and $z' \in Z'_{10}$. Then, we have
+
+$$\gamma^{Z'}_{11} = \gamma^Z_{11}$$
+
+but
 
 $$\gamma_{10}^Z(h) = \frac{1}{|\z{10}|} \sum_{\z{10}} h(x,0)$$.
-$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z{10}|} (h(x', 0) +\sum_{z \in \z{10} \cup Z'_{10}} h(x, 0))$$.
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z{10}|} (\sum_{z \in \z{10} \cup \z{10}'} h(x, 0) + h(x', 0)).$$
 
 Then,
 
 $$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
 $$ = \gamma_{10}^{Z'}(h) - \gz{11} $$
-$$ \leq \frac{1}{|\z{10}|}  + \Gamma^{Z}(h) $$
+$$ \leq \Gamma^{Z}(h) + \frac{1}{|\z{10}|} $$
 
 
-Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( \z{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
+Case 2: The neighboring databases contain a difference that is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( \z{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
 
 $$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
 $$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
@@ -264,9 +271,9 @@ $$\zt_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
 \dk {insert template}
 
 $$|\Gamma^{Z'}- \Gamma^{Z}| = \zt_{10} + \zt_{11}= \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+\end{proof}
 
-{\bf Proof 2}
-
+\begin{proof}
 Construct $\zt$-close neighboring databases $D$ and $D'$ such that
 
 $$\Pr[D'=d_{10}] - \Pr[D=d_{10}] = \zt$$
@@ -281,11 +288,11 @@ $$= \int_{D'_{10}}h(x)dx - \int_{D'_{11}}h(x)dx$$
 $$= \int_{D_{10}}h(x)dx + \frac{\zt}{dD_{10}}h(x_{10}) - \int_{D'_{11}}h(x)dx - \frac{\zt}{dD_{11}}h(x_{11})$$
 $$\leq \Gamma^{D}(h) + \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
 
-where $dD_{1a}$ is the measure of the set $D_{1a}, a \in \{0,1\}$. Hence
-$$\zt\Gamma = \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
+where $dD_{1a}$ is the measure of the set $D_{1a},$ for $a \in \{0,1\}$. Hence,
+$$\zt\Gamma = \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}.$$
+\end{proof}
 
-\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\zt$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
-Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\zt = 1/n$)}
+\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\zt$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..}
 
 \section{Approximate fairness with differentially privacy}
 
@@ -308,7 +315,9 @@ $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
 This algorithm is the exponential mechanism in McSherry and Talwar, and so it is differentially private.
 
-{\bf Lemma 2} The algorithm $\A_\eps$ is $\eps$-differentially private.
+\begin{lemma}
+  The algorithm $\A_\eps$ is $\eps$-differentially private.
+\end{lemma}
 \vg{Need proof?}
 
 Note that except for when $|\H|$ is polynomial, the exponential mechanism does not necessarily yield a polynomial time algorithm.
