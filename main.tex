@@ -16,7 +16,7 @@
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\A}{\mathcal{A}}
 \renewcommand{\H}{\mathcal{H}}
-\renewcommand{\C}{\mathcal{C}}
+\newcommand{\C}{\mathcal{C}}
 \newcommand{\X}{\mathcal{X}}
 \renewcommand{\S}{\mathcal{S}}
 
@@ -28,16 +28,14 @@
 
 \newcommand{\eps}{\epsilon}
 \newcommand{\zt}{\zeta}
-\newcommand{\zya}{\Z_{ya}}
+\newcommand{\zya}{Z_{ya}}
 
 \newcommand{\g}[1]{\gamma_{#1}(h)}
 \newcommand{\gz}[1]{\gamma_{#1}^Z(h)}
 
+\newcommand{\z}[1]{Z_{#1}}
+\renewcommand{\d}[1]{D_{#1}}
 \iffalse
-\newcommand{\Z}[1]{Z_{#1}}
-\newcommand{\D}[1]{D_{#1}}
-\newcommand{\D}[1]{D_{#1}}
-
 \newcommand{\g10}[1]{\gamma_{10}^Z(h)}
 \newcommand{\g11}{\gamma_{11}^Z(h)}
 
@@ -90,54 +88,61 @@
 \section{Introduction}
 \subsection{Related Work}
 \subsection{Our Contributions}
-We present two contributions to the study of the intersection of differential privacy and fairness in machine learning. First, we show that it is impossible to achieve both differential privacy and exact fairness, as we will define below. We then consider a notion of approximate fairness and show that a private learner is able to accurately achieve fairness with reasonable sample complexity. \vg{Finally, we present a polynomial time algorithm to achieve the differentially private and approximately fair scheme outlined above and show its empirical performance on certain datasets.}
+We present two contributions to the study of the intersection of differential privacy and fairness in the binary classification setting. First, we show that it is impossible to achieve both differential privacy and exact fairness even in the setting where we have access to the full distribution of the data. We then consider a notion of approximate fairness in the finite sample access setting and show that there exists a private PAC learner that is differentially private and satisfies approximate fairness with high probability. \vg{Finally, we present a polynomial time algorithm to achieve the differentially private and approximately fair scheme outlined above and show its empirical performance on certain datasets.}
 
 \section{Preliminaries}
-We consider the interaction of differential privacy and fairness and look at two settings, discrete and continuous. \\ \\
-We begin with notation of continuous setting:
+\dk {Let $\X$ be our data universe consisting of elements $z=(x,a,y)$ where $x$ is the features, $a$ the protected (binary) attribute, and $y$ the binary response. Note that $x$ may have arbitrary correlation with $a$, including containing a copy of it. $\A(x)$ is the probability distribution over outputs of a randomized algorithm $A$ on input $x$.}
 
-We consider data universe $\X$, where we have access to a joint probability distribution $D = (X, A, Y)$ over $\X$, where $X$ are the features, $A$ sensitive attributes, and $Y$ true labels, respectively. Distribution $D$ will represent a database in $\X$, as we specify below. Let $d_i = (x_i, a_i, y_i)$ be instances sampled from the distribution $D$. Note that $x_i$ may have arbitrary correlation with $a_i$, including containing a copy of it.
- \\ \\
-In the discrete setting:
+% First we consider the interaction of differential privacy and fairness in the full distribution access setting in which we show the impossibility of achieving both.
 
-We consider data universe $\X$. We have a finite sample database $Z$ with $n$ entries, with labeled examples $z_i = (x_i, a_i, y_i)$, drawn from an abitrary distribution over $\X$. In this context, we define $\zya = \{z \in Z | y_i =y, a_i = a\}$.
+% We consider data universe $\X$, where we have access to a joint probability distribution $D = (X, A, Y)$ over $\X$, where $X$ are the features, $A$ sensitive attributes, and $Y$ true labels, respectively. Distribution $D$ will represent a database in $\X$, as we specify below. Let $d_i = (x_i, a_i, y_i)$ be instances sampled from the distribution $D$. Note that $x_i$ may have arbitrary correlation with $a_i$, including containing a copy of it.
+%  \\ \\
+% In the discrete setting:
+
+% We consider data universe $\X$. We have a finite sample database $Z$ with $n$ entries, with labeled examples $z_i = (x_i, a_i, y_i)$, drawn from an abitrary distribution over $\X$. In this context, we define $\zya = \{z \in Z | y_i =y, a_i = a\}$.
 \subsection{Differential Privacy}
-We consider differential privacy in two settings, discrete and continuous.
-We first define the neighboring relation for differential privacy in the continuous setting.
-
+For our results, we use two notions of a database: 
+\begin{enumerate}
+	\item a distribution $D$ over $\X$;
+	\item a finite sample, vector $Z = (z_1, ..., z_n)$ drawn i.i.d. from a distribution $D$ over $\X$.
+\end{enumerate}
+For each notion, there is an accompanying notion of a neighboring database:
 \begin{defn}
-	($\zt$-closeness). Databases  $D$ and $D'$ (distributions over $\mathcal{X}$) are $\zt$-close if the statistical distance between their distributions is at most $\zt$, i.e.,
+	(1) ($\zt$-closeness). Random variables $D$ and $D'$ taking values in $\X$ are $\zt$-close if the statistical distance between their distributions is at most $\zt$, i.e.,
 
 	$$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{d\in \mathcal{X}} |\Pr[D=d] - \Pr[D'=d]| \leq \zeta.$$
 \end{defn}
 
-We now give a neighboring relation in terms of a finite sample \vg{from privacy book - Dwork Roth cite?}.
-
-\begin{defn} ref(kasivi?)
-Samples (multisets) $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for exactly one $\i \in [n]$ (i.e. the Hamming distancebetween $Z$ and $Z'$ is 1).
+\begin{defn} ref(kasivi?) \vg{from privacy book - Dwork Roth cite?}.
+(2) Samples $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for exactly one $i \in [n]$ (i.e. the Hamming distance between $Z$ and $Z'$ is 1).
 \end{defn}
+Alternatively we could define a finite sample as a multi-set, and use the symmetric distance instead of the Hamming metric to measure distance. 
+
+For each of these notions, the definition of differential privacy remains the same. That is, a randomized algorithm is private if neighboring databases induce close distributions on its outcomes:
 
 \begin{defn}
-($\eps$-differential privacy). A randomized algorithm $\A$ is $\eps$-differentially private if for all pairs of neighboring databases, continuous $D, D'$ or discrete $Z, Z'$, and for all sets $\S$ of outputs,
+($\eps$-differential privacy). A randomized algorithm $\A$ is $\eps$-differentially private if for all pairs of neighboring databases $D,D'$ and for all sets $\S$ of outputs,
 	$$\Pr[\A(D)\in \S] \leq \exp(\eps)\Pr[\A(D')\in \S].$$
 \end{defn}
-
+\dk{need to talk about composition/post-processing theorems and/or exponenetial mechanism?}
 \subsection{Exact Fairness}
 
-The first fairness setting we consider is exact fairness. Recall that in this context we have access to a distribution $D$ over data universe $\X$.
+In this setting our database notion is (1): a distribution $D$ over $X$. This corresponds with the full distributional access setting of [cite eq of opp hardt] where we have access to the joint probability distribution $D = (X, A, Y)$ over $\X$, where $X$ are the features, $A$ sensitive attributes, and $Y$ true labels, respectively. Hence we state our notion of exact fairness in these terms:
 
 \begin{defn}
 	 (Equal Opportunity). We say that a binary predictor $h$ satisfies equal opportunity with respect to $A$ and $Y$ if
 	$$\Pr\{h = 1 | A =1, Y=1\} = \Pr\{h = 1 | A=0, Y=1\}.$$
 \end{defn}
 
+Note that this is the weaker of the two definitions of fairness in Hardt et. al. however, it is sufficient to prove impossibility for this notion since violating this notion implies violating the stronger notion, equal odds. These measures of fairness belong to a broader class of fairness constraints that is, constraints on functions of the confusion matrix of a classifier (convex constraints paper). 
+
 \subsection{Approximate Fairness}
-We now turn to the approximate fairness setting with and define analogous definitions from the exact fairness setting. We now have access to a finite sample $Z$ consisting of entries drawn iid. from an arbitrary distribution $D$ over $\X$.
+We now turn to the approximate fairness setting with and define analogous definitions from the exact fairness setting. Here our notion of a database is (2) i.e. we have access to a finite sample $Z$ consisting of entries drawn i.i.d. from an arbitrary distribution $D$ over $\X$. 
 
-Define $\zya := \{z_i \in Z | y_i = y, a_i = a \}$ and
+For ease of notation we define $\zya := \{z_i \in Z | y_i = y, a_i = a \}$.
 
-An analogous definition for the group-conditional true positive rates:
-$$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x,a)$$
+We also have an analogous definition for the group-conditional true positive rates: \dk {clarify summation as such?: $\sum_{z_i \in \zya} h(x_i)$}
+$$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x).$$
 
 \begin{defn}
 	($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on the population or on a sample $Z$ if, respectively.
@@ -146,23 +151,34 @@ $$\Gamma(h) := \max_{y\in \{0,1\}}|\g{y0} - \g{y1}| \leq \alpha ~~ or $$
 $$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gz{y0} - \gz{y1}| \leq \alpha$$
 
 \end{defn}
-When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. We define:
+When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. For the analog of Definition 2.4 (eq. opp) where we only consider true positive rates, the definition reduces to:
 
 $$\Gamma^Z(h) := |\gz{10} - \gz{11}| \leq \alpha.$$
 
-We now focus on the equality of opportunity setting.
+In the remainder of this paper, $\Gamma$ refers to this fairness measure. \dk {actually we could do an impossibility result for any hard threshold for $\Gamma$ in any setting. Hence motivating approx fairness with high probability}
+
+\dk {talk about motivation for approx fairness because of finite sample (cannot achieve exact) and now also because of impossibility with privacy.}
+
 \subsection{Preliminaries from learning theory}
-\dk {finish writing}
 Formulate finite sample setting with arbitrary distribution D over X,Y. State goal of the learner. State first traditional error minimization. Talk about reformulation into also considering fairness. \dk {do we need to factor a weight $\lambda$ into the new error function? ie. $\ell + \lambda \Gamma$}
 
+A concept is a function that labels examples taken from the domain $X$ by the elements of the range $Y$. A \emph{concept class} is a set of concepts. The domain and range in $\C$ are ensembles $X= \{X_d\}_{d\in \N}$, $Y= \{Y_d\}_{d\in \N}$ where the representation size of the elements in $X_d,Y_d$ is at most $d$. Since we focus on binary classification problems, $d$ measures the size of examples in $X_d$. When the size parameter is clear from the context or not important, we omit the subscript $d$.
+In our particular setting, our distribution is arbitrary on $X \times Y$ and hence we consider the agnostic setting that removes the realizability assumption. The goal of a learner then is to output a hypothesis $h \in \H$ whose error with respect to the distribution is close to the optimal possible by a function from $\C$. The misclassification error of $h$ on $D$ is defined as:
+
+$$err(h) = \Pr_{(x,y) \tilde D}[h(x) \neq y].$$
+
+\dk {not sure if following def is correct (wrt. concept class $\C_d$ do we consider $\C$ in the agnostic setting?)}
 \begin{defn}
 	(Agnostic PAC Learning) A concept class $\C$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\cdot,\cdot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $\X$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, \log(1/\beta))$, $z_i = (x_i, a_i, y_i)$ drawn i.i.d. from D for $i \in [n]$, algorithm $\A$ outpus a hypothesis $h \in \H$ satisfying
 	$$\Pr[err(h) \leq OPT + \alpha] \geq 1-\beta.$$
 
 \end{defn}
+\dk {insert note about distribution-free learning}
+\subsection{Private and Approximately Fair Agnostic Learning}
+We define private and approximately fair PAC learners as algorithms that satisfy the definitions of differential privacy, approximate fairness (with high probability), and PAC learning.
 \begin{defn}
-	(Approximately Fair and Private Agnostic PAC Learning)
-	Let $d, \alpha, \beta$ be as in Definition 1.7 and $\eps > 0$. Concept class $\C$ is (inefficiently) approximately fair and private agnostically learnable using hypothesis class $\H$ if there exists an algorithm $\A$ that takes inputs $\eps, \alpha, \beta, Z$, where $|Z|=n$ is polynomial in $1/\eps, d, 1\alpha, \log(1/\beta)$ and satisfies \dk {edit fairness criterion}
+	(Private and Approximately Fair Agnostic PAC Learning)
+	Let $d, \alpha, \beta$ be as in Definition 2.6 (agnostic PAC learnigng) and $\eps > 0$. Concept class $\C$ is (inefficiently) privately and approximately fair agnostically learnable using hypothesis class $\H$ if there exists an algorithm $\A$ that takes inputs $\eps, \alpha, \beta, Z$, where $|Z|=n$ is polynomial in $1/\eps, d, 1\alpha, \log(1/\beta)$ and satisfies 
 	\begin{enumerate}
 		\item {[}Fairness{]} Algorithm $\A$ satisfies $\Pr[\Gamma(h) \leq OPT + \alpha] \geq 1-\beta$;
 		\item {[}Privacy{]} For all $\eps>0$, algorithm $\A(\eps, \cdot, \cdot, \cdot)$ is $\eps$-differentially private;
@@ -209,30 +225,30 @@ Which violates the definition of privacy in definition 1.
 
 
 
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|\z10|},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z10|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
+{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
 
 {\bf Proof 1}
 We examine two cases:
 
-Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in \z10$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
+Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in \z{10}$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
 
-$$\gamma_{10}^Z(h) = \frac{1}{|\z10|} \sum_{\z10} h(x,0)$$.
-$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z10|} (h(x', 0) +\sum_{z \in \z10 \cup Z'_{10}} h(x, 0))$$.
+$$\gamma_{10}^Z(h) = \frac{1}{|\z{10}|} \sum_{\z{10}} h(x,0)$$.
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z{10}|} (h(x', 0) +\sum_{z \in \z{10} \cup Z'_{10}} h(x, 0))$$.
 
 Then,
 
 $$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
 $$ = \gamma_{10}^{Z'}(h) - \gz{11} $$
-$$ \leq \frac{1}{|\z10|}  + \Gamma^{Z}(h) $$
+$$ \leq \frac{1}{|\z{10}|}  + \Gamma^{Z}(h) $$
 
 
-Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( \z10\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
+Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( \z{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
 
 $$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
 $$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
 Similarly,
 $$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{Z'_{10}} h(x)$$
-$$ = \frac{1}{|Z'_{10}|} (\sum_{\z10} h(x)+h(z_0))= \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0))$$
+$$ = \frac{1}{|Z'_{10}|} (\sum_{\z{10}} h(x)+h(z_0))= \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0))$$
 
 Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for details on include here? Refactor and add maxes}), $$|\Gamma^{Z'}- \Gamma^{Z}| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
 
@@ -240,11 +256,11 @@ Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for 
 $$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
 Let $\zt_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\zt_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
 
-$$\zt_{10} = \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
+$$\zt_{10} = \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
 $$\zt_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
 \dk {insert template}
 
-$$|\Gamma^{Z'}- \Gamma^{Z}| = \zt_{10} + \zt_{11}= \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+$$|\Gamma^{Z'}- \Gamma^{Z}| = \zt_{10} + \zt_{11}= \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
 
 {\bf Proof 2}
 
@@ -281,7 +297,7 @@ $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{ with prob
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\zt u(Z,h) = ||(\zt\ell,\zt{\Gamma})||_1 \approx O(||1/n,1/|\z10|+1/|Z_{11}|||_1)$$
+$$\zt u(Z,h) = ||(\zt\ell,\zt{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|Z_{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -340,9 +356,9 @@ Let $$X_i^a = n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg 
 
 Then $$\max_{a\in \{0,1\}}\frac{1}{n} \sum_Z X_i^a =\frac{1}{n}  \max_{a\in \{0,1\}} \sum_Z n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y]$$
 
-$$= |\sum_Z \frac{\1_{z\in \z10}h(x)}{|\z10|} - \frac{\1_{z\in Z_{11}}h(x)}{|Z_{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
+$$= |\sum_Z \frac{\1_{z\in \z{10}}h(x)}{|\z{10}|} - \frac{\1_{z\in Z_{11}}h(x)}{|Z_{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
-$$= |\frac{1}{|\z10|} \sum_{z\in \z10} h(x) - \frac{1}{|Z_{11}|} \sum_{z\in Z_{11}} h(x)| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
+$$= |\frac{1}{|\z{10}|} \sum_{z\in \z{10}} h(x) - \frac{1}{|Z_{11}|} \sum_{z\in Z_{11}} h(x)| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
 $$=|\gamma_{10}^Z - \gamma_{11}^Z| + \ell^Z(h) $$
 $$=||(\Gamma^Z(h), \ell^Z(h)||_{1} = u(Z,h)$$
@@ -389,3 +405,4 @@ p-norm discussion from exp mech?
 
 
 \end{document}
+
