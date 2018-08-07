@@ -202,9 +202,9 @@ In this setting, we have full access to the continuous data distribution $D$ ove
 	$$D_{ya} := \{d_i \in D | y_i = y, a_i = a \}.$$
 \end{defn}
 \begin{defn}
-	(non-trivial hypothesis class). We say that a hypothesis class $\H$ is {\bf non-trivial} if there exists $d_1, d_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
+	(non-trivial hypothesis class). We say that a hypothesis class $\H$ is {\bf non-trivial} if there exists $z_1, z_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
 \end{defn}
-\begin{lemma}Let $\mathcal{H}$ be a non-trivial hypothesis class. Releasing an exactly fair hypothesis $h\in \mathcal{H}$ in a differentially private manner is impossible.
+\begin{lemma}Let $\mathcal{H}$ be a non-trivial hypothesis class. Then releasing an exactly fair hypothesis $h\in \mathcal{H}$ in a differentially private manner is impossible.
 \end{lemma}
 \dk{ (currently in weaker eq. of opp. fairness notion, can also be done for stronger notions.) TODO: general proof of impossibility given a `reasonable' fairness constraint on the confusion matrix? Seems like it would be difficult since need to construct neighboring databases. Hence TODO: proof for eq. odds? or say easy extension into other `reasonable' fairness notions.}
 
@@ -222,14 +222,14 @@ $$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\eps)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 Which violates the definition of privacy in definition 1.
 \end{proof}
 
-{\bf Lemma 2} $(\eps, \zt)$-DP and fairness is impossible. Need proof
+\begin{lemma} $(\eps, \zt)$-DP and fairness is impossible. Need proof
+
+\end{lemma}
 
 
-
-
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
-
-{\bf Proof 1}
+\begin{corollary} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
+\end{corollary}
+\begin{proof}
 We examine two cases:
 
 Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in \z{10}$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
@@ -282,7 +282,7 @@ $$\leq \Gamma^{D}(h) + \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
 
 where $dD_{1a}$ is the measure of the set $D_{1a}, a \in \{0,1\}$. Hence
 $$\zt\Gamma = \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
-
+\end{proof}
 \dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\zt$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
 Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\zt = 1/n$)}
 
@@ -299,7 +299,7 @@ $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{ with prob
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\zt u(Z,h) = ||(\zt\ell,\zt{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|Z_{11}|||_1)$$
+$$\Delta u(Z,h) = ||(\Delta\ell,\Delta{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|Z_{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -307,9 +307,9 @@ $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
 This algorithm is the exponential mechanism in McSherry and Talwar, and so it is differentially private.
 
-{\bf Lemma 2} The algorithm $\A_\eps$ is $\eps$-differentially private.
+\begin{lemma} The algorithm $\A_\eps$ is $\eps$-differentially private.
 Need proof?
-
+\end{lemma} 
 Note that except for when $|\H|$ is polynomial, the exponential mechanism does not necessarily yield a polynomial time algorithm.
 
 \dk{refactor constants}
@@ -376,30 +376,8 @@ $$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 4\exp(\frac{-2\rho^2n}{9})$$
 \dk {Note: can do extension into other definitions of fairness (with constant factor).
 Can also extend into a different norm for $u(Z,h)$ if we have a concentration of measure theorem for the different norm. There are also random matrix concentration bounds (can do concentration for all functions of the confusion matrix?)}
 
-\section{Approximately fair correction with differentially private linear programs}
-Do DP-LP
-
 \section{A polynomial time algorithm \\for approximately fair and private classification}
-\clearpage
 
-Old stuff:
-
-Our initial approach was to look at this algorithm that achieves equality of opportunity or equal odds by flipping (with some probability) the label of the original non-fair algorithm, $\hat{Y}$, depending on the output label and the class membership $A$. $\hat{Y}$ is trained on $(X,Y)$, the features $X$ and the true label $Y$. When we flip labels given by $\hat{Y}$ we assume that we are given full access to the distribution $(Y,A,\hat{Y})$.
-
-Essentially, modifying $\hat{Y}$ we create a new classifier $\tilde{Y}$ that is fair by setting the probabilities $\text{Pr}\{\tilde{Y} = 1 | \hat{Y} = \hat{y}, A = a \}$ for $\hat{y}, a \in \{0,1\}$ appropriately. The ``pipeline'' with the available information at each stage laid out plainly is as follows:
-
-$$(X,Y) \xrightarrow[]{\text{vanilla training}} (\hat{Y},A,Y) \xrightarrow[]{\text{fairness}} \tilde{Y} $$
-
-
-\section{Privatizing Woodworth et. al. (2017)}
-(This is the follow-up to Eq. of Opp.)
-
-\subsection{Brief summary}
-This paper gives a two step algorithm in a learning model with finite samples and hypothesis classes. They split the training set into two parts. The first step is traditional ERM (with 0-1 loss) but with a sample based fairness constraint using half of the training set. The second step takes the outputted hypothesis from step 1 and does the same post-processing step as in the algorithm of Equality of Opportunity.
-
-
-\section{Privatizing first}
-With the finite sample setting and also the case that we cannot achieve exact fairness privately, this line of inquiry now seems to be fruitful. It would not take long to analyze the effect of first privatizing via synthetic data or adding noise to the training data (smallDB etc.) and then training a fair classifier.
 
 \section{Appendix}
 p-norm discussion from exp mech?
