@@ -116,7 +116,7 @@ For each notion, there is an accompanying notion of a neighboring database:
 \begin{defn} ref(kasivi?) \vg{from privacy book - Dwork Roth cite?}.
 (2) Samples $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for exactly one $i \in [n]$ (i.e. the Hamming distance between $Z$ and $Z'$ is 1).
 \end{defn}
-Alternatively we could define a finite sample as a multi-set, and use the symmetric distance instead of the Hamming metric to measure distance. 
+Alternatively we could define a finite sample as a multi-set, and use the symmetric distance instead of the Hamming metric to measure distance. Note that definition 2.1 is a generalization of definition 2.2. 
 
 For each of these notions, the definition of differential privacy remains the same. That is, a randomized algorithm is private if neighboring databases induce close distributions on its outcomes:
 
@@ -160,13 +160,15 @@ In the remainder of this paper, $\Gamma$ refers to this fairness measure. \dk {a
 \dk {talk about motivation for approx fairness because of finite sample (cannot achieve exact) and now also because of impossibility with privacy.}
 
 \subsection{Preliminaries from learning theory}
-Formulate finite sample setting with arbitrary distribution D over X,Y. State goal of the learner. State first traditional error minimization. Talk about reformulation into also considering fairness. \dk {do we need to factor a weight $\lambda$ into the new error function? ie. $\ell + \lambda \Gamma$}
-
+\dk {do we need to factor a weight $\lambda$ into the new error function? ie. $\ell + \lambda \Gamma$}
+\dk {very not sure how to write this section, help?}
 A concept is a function that labels examples taken from the domain $X$ by the elements of the range $Y$. A \emph{concept class} is a set of concepts. The domain and range in $\C$ are ensembles $X= \{X_d\}_{d\in \N}$, $Y= \{Y_d\}_{d\in \N}$ where the representation size of the elements in $X_d,Y_d$ is at most $d$. Since we focus on binary classification problems, $d$ measures the size of examples in $X_d$. When the size parameter is clear from the context or not important, we omit the subscript $d$.
-In our particular setting, our distribution is arbitrary on $X \times Y$ and hence we consider the agnostic setting that removes the realizability assumption. The goal of a learner then is to output a hypothesis $h \in \H$ whose error with respect to the distribution is close to the optimal possible by a function from $\C$. The misclassification error of $h$ on $D$ is defined as:
+
+In our particular setting, our distribution of labeled examples is arbitrary on $X_d \times Y_d$ and hence we consider the agnostic setting that removes the realizability assumption. The goal of a learner then is to output a hypothesis $h \in \H$ whose error with respect to the distribution is close to the optimal possible by a function from $\C$. The misclassification error of $h$ on $D$ is defined as:
 
 $$err(h) = \Pr_{(x,y) \tilde D}[h(x) \neq y].$$
 
+In our setting we consider the agnostic learnability setting. 
 \dk {not sure if following def is correct (wrt. concept class $\C_d$ do we consider $\C$ in the agnostic setting?)}
 \begin{defn}
 	(Agnostic PAC Learning) A concept class $\C$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\cdot,\cdot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $\X$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, \log(1/\beta))$, $z_i = (x_i, a_i, y_i)$ drawn i.i.d. from D for $i \in [n]$, algorithm $\A$ outpus a hypothesis $h \in \H$ satisfying
