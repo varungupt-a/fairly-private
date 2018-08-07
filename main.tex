@@ -17,11 +17,39 @@
 \renewcommand{\H}{\mathcal{H}}
 \renewcommand{\C}{\mathcal{C}}
 \newcommand{\X}{\mathcal{X}}
-\newcommand{\1}{\mathbbm{1}}
-
-
 \renewcommand{\S}{\mathcal{S}}
+
+
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
 \newcommand{\del}{\delta}
+\newcommand{\eps}{\epsilon}
+
+\newcommand{\zya}{\Z_{ya}}
+\iffalse
+\newcommand{\z10}{\Z_{10}}
+\newcommand{\z11}{Z_{11}}
+\newcommand{\dya}{D_{ya}}
+\newcommand{\d10}{D_{10}}
+\newcommand{\d11}{D_{11}}
+\newcommand{\dya'}{D'_{ya}}
+\newcommand{\d10'}{D'_{10}}
+\newcommand{\d11'}{D'_{11}}
+
+\newcommand{\g10}{\gamma_{10}^Z(h)}
+\newcommand{\g11}{\gamma_{11}^Z(h)}
+
+\newcommand{\g10'}{\gamma_{10}^{Z'}(h)}
+\newcommand{\g11'}{\gamma_{11}^{Z'}(h)}
+
+\newcommand{\GZ}{\Gamma^{Z'}(h)}
+\newcommand{\GZ'}{\Gamma^{Z'}(h)}
+\fi
+\newcommand{\lzh}{\ell^{Z}(h)}
+
+
 %
 \theoremstyle{definition}
 \newtheorem{defn}{Definition}[section]
@@ -40,8 +68,6 @@
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
 
 
 \newenvironment{problem}[2][Problem]{\begin{trivlist}
@@ -69,27 +95,27 @@ We consider data universe $\X$, where we have access to a joint probability dist
  \\ \\
 In the discrete setting:
 
-We consider data universe $\X$. We have a finite sample database $Z$ with $n$ entries, with labeled examples $z_i = (x_i, a_i, y_i)$, drawn from an abitrary distribution over $\X$. In this context, we define $Z_{ya} = \{z \in Z | y_i =y, a_i = a\}$.
+We consider data universe $\X$. We have a finite sample database $Z$ with $n$ entries, with labeled examples $z_i = (x_i, a_i, y_i)$, drawn from an abitrary distribution over $\X$. In this context, we define $\zya = \{z \in Z | y_i =y, a_i = a\}$.
 \subsection{Differential Privacy}
 We consider differential privacy in two settings, discrete and continuous.
 We first define the neighboring relation for differential privacy in the continuous setting.
 
 \begin{defn}
-	($\delta$-closeness). Databases  $D$ and $D'$ (distributions over $\mathcal{X}$) are $\delta$-close if the statistical distance between their distributions is at most $\delta$, i.e.,
+	($\del$-closeness). Databases  $D$ and $D'$ (distributions over $\mathcal{X}$) are $\del$-close if the statistical distance between their distributions is at most $\del$, i.e.,
 
-	$$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{d\in \mathcal{X}} |\Pr[D=d] - \Pr[D'=d]| \leq \delta.$$
+	$$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{d\in \mathcal{X}} |\Pr[D=d] - \Pr[D'=d]| \leq \del.$$
 \end{defn}
 
 We now give a neighboring relation in terms of a finite sample \vg{from privacy book - Dwork Roth cite?}.
-
+\dk {following definition currently incorrect. $z_i$ is not the frequency of an entry}
 \begin{defn}
 Databases $Z$ and $Z'$ are neighboring if the $\ell_1$ distance between them is at most one, i.e.,
 $$ \|Z - Z'\|_1 = \sum_{i=1}^{|\X|} |z_i - z'_i| \leq 1.$$
 \end{defn}
 
 \begin{defn}
-($\epsilon$-differential privacy). A randomized algorithm $\A$ is $\epsilon$-differentially private if for all pairs of neighboring databases, continuous $D, D'$ or discrete $Z, Z'$, and for all sets $\S$ of outputs,
-	$$\Pr[\A(D)\in \S] \leq \exp(\epsilon)\Pr[\A(D')\in \S].$$
+($\eps$-differential privacy). A randomized algorithm $\A$ is $\eps$-differentially private if for all pairs of neighboring databases, continuous $D, D'$ or discrete $Z, Z'$, and for all sets $\S$ of outputs,
+	$$\Pr[\A(D)\in \S] \leq \exp(\eps)\Pr[\A(D')\in \S].$$
 \end{defn}
 
 \subsection{Exact Fairness}
@@ -104,10 +130,10 @@ The first fairness setting we consider is exact fairness. Recall that in this co
 \subsection{Approximate Fairness}
 We now turn to the approximate fairness setting with and define analogous definitions from the exact fairness setting. We now have access to a finite sample $Z$ consisting of entries drawn from an arbitrary distribution over $\X$.
 
-Define $Z_{ya} := \{z_i \in Z | y_i = y, a_i = a \}$ and
+Define $\zya := \{z_i \in Z | y_i = y, a_i = a \}$ and
 
 An analogous definition for the group-conditional true positive rates:
-$$\gamma_{ya}^Z(h) = \frac{1}{|Z_{ya}|} \sum_{Z_{ya}} h(x,a)$$
+$$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x,a)$$
 
 \begin{defn}
 	($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on the population or on a sample $Z$ if, respectively.
@@ -154,67 +180,67 @@ In this setting, we have full access to the continuous data distribution $D$ ove
 \dk{ (currently in weaker eq. of opp. fairness notion, can also be done for stronger notions.) TODO: general proof of impossibility given a `reasonable' fairness constraint on the confusion matrix? Seems like it would be difficult since need to construct neighboring databases. Hence TODO: proof for eq. odds? or say easy extension into other `reasonable' fairness notions.}
 
 \begin{proof}
-	Let $D, D'$ be $\delta$-close and suppose that the fair (as in definition 2) hypotheses $h$ is released by algorithm $\mathcal{A}$ on input of $D$. Let $d(\cdot)$ be the measure as defined by the distribution $D$. Pick $d_1, d_0 \in D_{11}$ such that $h(x_1) > h(x_0)$ and assume that $d_1, d_0 \in supp(D) \text{ and } supp(D')$. Let $\delta < \min_{i,D,D'}(d_{D}(d_i))$ $D'$ be a database with $\delta$ more probability mass of $d_1$ and $\delta$ less mass of $d_0$. Then recalling that $d_i = (y_i, x_i, a_i)$:
+	Let $D, D'$ be $\del$-close and suppose that the fair (as in definition 2) hypotheses $h$ is released by algorithm $\mathcal{A}$ on input of $D$. Let $d(\cdot)$ be the measure as defined by the distribution $D$. Pick $d_1, d_0 \in D_{11}$ such that $h(x_1) > h(x_0)$ and assume that $d_1, d_0 \in supp(D) \text{ and } supp(D')$. Let $\del < \min_{i,D,D'}(d_{D}(d_i))$ $D'$ be a database with $\del$ more probability mass of $d_1$ and $\del$ less mass of $d_0$. Then recalling that $d_i = (y_i, x_i, a_i)$:
 
-$$\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \int_{D_{11}}h(x)dx + \frac{\delta}{d(D_{11})} h(x_1) - \frac{\delta}{d(D_{11})} h(x_0) $$
-$$= \Pr_{D}\{h(x) = 1 | a = 1, y=1\} + \frac{\delta}{d(D_{11})} (h(x_1) - h(x_0))$$
+$$\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \int_{D_{11}}h(x)dx + \frac{\del}{d(D_{11})} h(x_1) - \frac{\del}{d(D_{11})} h(x_0) $$
+$$= \Pr_{D}\{h(x) = 1 | a = 1, y=1\} + \frac{\del}{d(D_{11})} (h(x_1) - h(x_0))$$
 $$>  \Pr_{D}\{h(x) = 1 | a = 1, y=1\}$$
 
 where the last inequality is due to the assumption that $h(x_1) > h(x_0)$. Hence hypothesis $h$ is unfair when applied to database $D'$ and cannot be released by the exactly fair mechanism $\A$ on input of database $D'$. So
 
-$$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\epsilon)\Pr\{\mathcal{A}(D') = h\} = 0$$.
+$$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\eps)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 
 Which violates the definition of privacy in definition 1.
 \end{proof}
 
-{\bf Lemma 2} $(\epsilon, \delta)$-DP and fairness is impossible. Need proof
+{\bf Lemma 2} $(\eps, \del)$-DP and fairness is impossible. Need proof
 
 
 
 
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|Z_{10}|},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|Z_{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|Z_{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
+{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|\z10|},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z10|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
 
 {\bf Proof 1}
 We examine two cases:
 
-Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in Z_{10}$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
+Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in \z10$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
 
-$$\gamma_{10}^Z(h) = \frac{1}{|Z_{10}|} \sum_{Z_{10}} h(x,0)$$.
-$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z_{10}|} (h(x', 0) +\sum_{z \in Z_{10} \cup Z'_{10}} h(x, 0))$$.
+$$\gamma_{10}^Z(h) = \frac{1}{|\z10|} \sum_{\z10} h(x,0)$$.
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z10|} (h(x', 0) +\sum_{z \in \z10 \cup Z'_{10}} h(x, 0))$$.
 
 Then,
 
 $$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
 $$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
-$$ \leq \frac{1}{|Z_{10}|}  + \Gamma^{Z}(h) $$
+$$ \leq \frac{1}{|\z10|}  + \Gamma^{Z}(h) $$
 
 
-Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( Z_{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
+Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( \z10\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
 
 $$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
 $$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
 Similarly,
 $$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{Z'_{10}} h(x)$$
-$$ = \frac{1}{|Z'_{10}|} (\sum_{Z_{10}} h(x)+h(z_0))= \frac{1}{|Z_{10}|+1} (\sum_{Z_{10}} h(x)+h(z_0))$$
+$$ = \frac{1}{|Z'_{10}|} (\sum_{\z10} h(x)+h(z_0))= \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0))$$
 
 Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for details on include here? Refactor and add maxes}), $$|\Gamma^{Z'}- \Gamma^{Z}| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
 
 
 $$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
-Let $\Delta_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\Delta_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
+Let $\del_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\del_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
 
-$$\Delta_{10} = \frac{1}{|Z_{10}|+1} (\sum_{Z_{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
-$$\Delta_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+$$\del_{10} = \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
+$$\del_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
 \dk {insert template}
 
-$$|\Gamma^{Z'}- \Gamma^{Z}| = \Delta_{10} + \Delta_{11}= \frac{\gamma_{10}}{|Z_{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+$$|\Gamma^{Z'}- \Gamma^{Z}| = \del_{10} + \del_{11}= \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
 
 {\bf Proof 2}
 
-Construct $\delta$-close neighboring databases $D$ and $D'$ such that
+Construct $\del$-close neighboring databases $D$ and $D'$ such that
 
-$$\Pr[D'=d_{10}] - \Pr[D=d_{10}] = \delta$$
-$$\Pr[D=d_{11}] - \Pr[D'=d_{11}] = \delta$$
+$$\Pr[D'=d_{10}] - \Pr[D=d_{10}] = \del$$
+$$\Pr[D=d_{11}] - \Pr[D'=d_{11}] = \del$$
 
 
 
@@ -222,29 +248,29 @@ and assume that $d_0, d_1 \in \text{supp}(D')$ and $\in \text{supp}(D)$. Let $d_
 
 $$\Gamma^{D'}(h) = \gamma_{10}^{D'}(h) - \gamma_{11}^{D'}(h)$$
 $$= \int_{D'_{10}}h(x)dx - \int_{D'_{11}}h(x)dx$$
-$$= \int_{D_{10}}h(x)dx + \frac{\delta}{dD_{10}}h(x_{10}) - \int_{D'_{11}}h(x)dx - \frac{\delta}{dD_{11}}h(x_{11})$$
-$$\leq \Gamma^{D}(h) + \frac{\delta}{dD_{10}} + \frac{\delta}{dD_{11}}$$
+$$= \int_{D_{10}}h(x)dx + \frac{\del}{dD_{10}}h(x_{10}) - \int_{D'_{11}}h(x)dx - \frac{\del}{dD_{11}}h(x_{11})$$
+$$\leq \Gamma^{D}(h) + \frac{\del}{dD_{10}} + \frac{\del}{dD_{11}}$$
 
 where $dD_{1a}$ is the measure of the set $D_{1a}, a \in \{0,1\}$. Hence
-$$\Delta\Gamma = \frac{\delta}{dD_{10}} + \frac{\delta}{dD_{11}}$$
+$$\del\Gamma = \frac{\del}{dD_{10}} + \frac{\del}{dD_{11}}$$
 
-\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\delta$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
-Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\delta = 1/n$)}
+\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\del$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
+Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\del = 1/n$)}
 
 \section{Approximate fairness with differentially privacy}
 
 
 
 We now turn to the finite sample setting where we release a hypothesis that minimizes the training error. Our goal is now approximate fairness. We use the exponential mechanism in the same way as it is used in private PAC learning. Defining the sample as $Z$, $|Z| = n$ and $\Gamma^{Z}$ as our in-sample fairness measure, we give the algorithm:
-$$\mathcal{A}^\epsilon : \text{Output hypothesis }h \in \mathcal{H} \text{ with probability proportional to }$$
+$$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{ with probability proportional to }$$
 \begin{align}
-\exp(-\frac{\epsilon \cdot u(Z,h)}{2\Delta u})
+\exp(-\frac{\eps \cdot u(Z,h)}{2\del u})
 \end{align}
 
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\Delta u(Z,h) = ||(\Delta\ell,\Delta{\Gamma})||_1 \approx O(||1/n,1/|Z_{10}|+1/|Z_{11}|||_1)$$
+$$\del u(Z,h) = ||(\del\ell,\del{\Gamma})||_1 \approx O(||1/n,1/|\z10|+1/|Z_{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -252,18 +278,18 @@ $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
 This algorithm is the exponential mechanism in McSherry and Talwar, and so it is differentially private.
 
-{\bf Lemma 2} The algorithm $\A_\epsilon$ is $\epsilon$-differentially private.
+{\bf Lemma 2} The algorithm $\A_\eps$ is $\eps$-differentially private.
 Need proof?
 
 Note that except for when $|\H|$ is polynomial, the exponential mechanism does not necessarily yield a polynomial time algorithm.
 
 \dk{refactor constants}
-{\bf Theorem 1}(Generic private fair learner) For all $d \in \mathbb{N}$, any concept class $\mathcal{C}_d$ whose cardinality is at most $\exp(\text{poly}(d))$ is privately fairly agnostically learnable using $\H_d = \C_d$. More precisely, the learner uses $n = ..$ labeled examples from $D$, where $\epsilon, \alpha$, and $\beta$ are parameters of the private learning.
+{\bf Theorem 1}(Generic private fair learner) For all $d \in \mathbb{N}$, any concept class $\mathcal{C}_d$ whose cardinality is at most $\exp(\text{poly}(d))$ is privately fairly agnostically learnable using $\H_d = \C_d$. More precisely, the learner uses $n = ..$ labeled examples from $D$, where $\eps, \alpha$, and $\beta$ are parameters of the private learning.
 %\dk{Q: ``the domain and range of the concepts in $\mathcal{C}$ is understood to be ensembles $X = \{X_d\}_{d\in \mathbb{N}}$ and $Y = \{Y_d\}_{d\in \mathbb{N}}$, where the representation of elements $X_d, Y_d$ is of size at most $d$''}
 
-{\it Proof.} Let $\A_{\epsilon}$ be as defined above. The privacy condition is satisfied by Lemma.
+{\it Proof.} Let $\A_{\eps}$ be as defined above. The privacy condition is satisfied by Lemma.
 
-Now we show that the utility condition is also satisfied. Let the event $E = \{\A_{\epsilon} = h \text{ with } u(h) > OPT + \alpha\}$. We need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
+Now we show that the utility condition is also satisfied. Let the event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$. We need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
 
@@ -278,17 +304,17 @@ for all hypotheses $h \in \H_d$. Hence,
 $$\Pr[|u(Z,h) - u(D,h)| \geq \rho \text{ for some } h \in \H_d] \leq 4|\H_d|\exp(\frac{-\rho^2n}{2})$$
 
 \dk{need following proof? relatively similar to kasiviswanathan what can we learn privately}
-Now we analyze $\A_\epsilon(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\epsilon(Z) = h]$ is
+Now we analyze $\A_\eps(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\eps(Z) = h]$ is
 
-$$\frac{\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\epsilon}{2\Delta u} \cdot u(Z,h'))} $$
-$$= \exp(-\frac{\epsilon}{2\Delta u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
-$$\leq \exp(-\frac{\epsilon}{2\Delta u}(u(Z,h) - (OPT + \rho)))$$
+$$\frac{\exp(-\frac{\eps}{2\del u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\eps}{2\del u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\eps}{2\del u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\eps}{2\del u} \cdot u(Z,h'))} $$
+$$= \exp(-\frac{\eps}{2\del u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
+$$\leq \exp(-\frac{\eps}{2\del u}(u(Z,h) - (OPT + \rho)))$$
 
-Hence the probability that $\A_\epsilon(Z)$ outputs a hypothesis $h \in \H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most $|\H_d|\exp(-\frac{\epsilon\cdot\rho}{2\Delta u})$
+Hence the probability that $\A_\eps(Z)$ outputs a hypothesis $h \in \H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most $|\H_d|\exp(-\frac{\eps\cdot\rho}{2\del u})$
 
 Setting $\rho = \alpha/3$. If $u(D,h) \geq OPT + \alpha$ then $|u(D,h) - u(Z,h)| \geq \alpha/3$ or $u(Z,h) \geq OPT + 2\alpha/3$. Hence
 
-$$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\epsilon\cdot\alpha}{6\Delta u})) \leq \beta$$.
+$$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\eps\cdot\alpha}{6\del u})) \leq \beta$$.
 
 Where the inequality holds for $n \geq $. $\square$
 
@@ -303,9 +329,9 @@ Let $$X_i^a = n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg 
 
 Then $$\max_{a\in \{0,1\}}\frac{1}{n} \sum_Z X_i^a =\frac{1}{n}  \max_{a\in \{0,1\}} \sum_Z n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y]$$
 
-$$= |\sum_Z \frac{\1_{z\in Z_{10}}h(x)}{|Z_{10}|} - \frac{\1_{z\in Z_{11}}h(x)}{|Z_{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
+$$= |\sum_Z \frac{\1_{z\in \z10}h(x)}{|\z10|} - \frac{\1_{z\in Z_{11}}h(x)}{|Z_{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
-$$= |\frac{1}{|Z_{10}|} \sum_{z\in Z_{10}} h(x) - \frac{1}{|Z_{11}|} \sum_{z\in Z_{11}} h(x)| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
+$$= |\frac{1}{|\z10|} \sum_{z\in \z10} h(x) - \frac{1}{|Z_{11}|} \sum_{z\in Z_{11}} h(x)| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
 $$=|\gamma_{10}^Z - \gamma_{11}^Z| + \ell^Z(h) $$
 $$=||(\Gamma^Z(h), \ell^Z(h)||_{1} = u(Z,h)$$
