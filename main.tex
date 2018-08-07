@@ -21,21 +21,20 @@
 
 
 \newcommand{\1}{\mathbbm{1}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathcal{N}}
+%\newcommand{\Z}{\mathcal{Z}}
 
 \newcommand{\del}{\delta}
 \newcommand{\eps}{\epsilon}
 
-\newcommand{\zya}{\Z_{ya}}
+\newcommand{\zya}{Z_{ya}}
+%\iffalse
+\newcommand{\z}[1]{Z_{#1}}
+\newcommand{\d}[1]{D_{#1}}
+
+\newcommand{\g}[1]{\gamma_{#1}(h)}
+\newcommand{\gz}[1]{\gamma_{#1}^Z(h)}
 \iffalse
-\newcommand{\Z}[1]{Z_{#1}}
-\newcommand{\D}[1]{D_{#1}}
-\newcommand{\D}[1]{D_{#1}}
-
-\newcommand{\g10}[1]{\gamma_{10}^Z(h)}
-\newcommand{\g11}{\gamma_{11}^Z(h)}
-
 \newcommand{\g10'}{\gamma_{10}^{Z'}(h)}
 \newcommand{\g11'}{\gamma_{11}^{Z'}(h)}
 
@@ -80,6 +79,15 @@
 \title{Privacy $\cap$ Fairness}
 {\author{Rachel Cummings, Varun Gupta, \\Dhamma Kimpara, Jamie Morgenstern}}
 \maketitle
+
+
+\section{Introduction}
+\subsection{Related Work}
+\subsection{Our Contributions}
+We present two contributions to the study of the intersection of differential privacy and fairness in machine learning. First, we show that it is impossible to achieve both differential privacy and exact fairness, as we will define below. We then consider a notion of approximate fairness and show that a learner is able to achieve. \vg{Finally, we present a polynomial time algorithm to achieve the differentially private and napproximately fair scheme outlined above and show its empirical performance on certain datasets.}
+\vg{TODO: add polytime alg description once completed}
+
+
 \section{Preliminaries}
 \dk{TODO: model, what are we given, what do we have access to?}
 
@@ -128,18 +136,18 @@ We now turn to the approximate fairness setting with and define analogous defini
 Define $\zya := \{z_i \in Z | y_i = y, a_i = a \}$ and
 
 An analogous definition for the group-conditional true positive rates:
-$$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x,a)$$
+$$\gz{ya} = \frac{1}{|\zya|} \sum_{\zya} h(x,a)$$
 
 \begin{defn}
 	($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on the population or on a sample $Z$ if, respectively.
 
-$$\Gamma(h) := \max_{y\in \{0,1\}}|\gamma_{y0}(h) - \gamma_{y1}(h)| \leq \alpha ~~ or $$
-$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gamma_{y0}^Z(h) - \gamma_{y1}^Z(h)| \leq \alpha$$
+$$\Gamma(h) := \max_{y\in \{0,1\}}|\g{y0} - \g{y1}| \leq \alpha ~~ or $$
+$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gz{y0} - \gz{y1}| \leq \alpha$$
 
 \end{defn}
 When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. We define:
 
-$$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha.$$
+$$\Gamma^Z(h) := |\gz{10} - \gz{11})| \leq \alpha.$$
 
 We now focus on the equality of opportunity setting.
 \subsection{Preliminaries from learning theory}
@@ -193,30 +201,30 @@ Which violates the definition of privacy in definition 1.
 
 
 
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|\z10|},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z10|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
+{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|\z{10}|},\frac{1}{|\z{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|\z{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|\z{11}|-1})$
 
 {\bf Proof 1}
 We examine two cases:
 
-Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $Z_{1a}$. WLOG let $\alpha = 0$. Let $z \in \z10$ be replaced with $z' \in Z'_{10}$. Then $\gamma^{Z'}_{11} = \gamma^Z_{11}$ but
+Case 1: neighboring database $Z'$ is a change in entry within a subgroup ie. within $\z{1a}$. WLOG let $\alpha = 0$. Let $z \in \z{10}$ be replaced with $z' \in \z{10}'$. Then $\gamma^{Z'}_{11} = \gamma^\z{11}$ but
 
-$$\gamma_{10}^Z(h) = \frac{1}{|\z10|} \sum_{\z10} h(x,0)$$.
-$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z10|} (h(x', 0) +\sum_{z \in \z10 \cup Z'_{10}} h(x, 0))$$.
+$$\gamma_{10}^Z(h) = \frac{1}{|\z{10}|} \sum_{\z{10}} h(x,0)$$.
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z{10}|} (h(x', 0) +\sum_{z \in \z{10} \cup \z{10}'} h(x, 0))$$.
 
 Then,
 
 $$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
-$$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
-$$ \leq \frac{1}{|\z10|}  + \Gamma^{Z}(h) $$
+$$ = \gamma_{10}^{Z'}(h) - \gamma^\z{11}(h) $$
+$$ \leq \frac{1}{|\z{10}|}  + \Gamma^{Z}(h) $$
 
 
-Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(Z_{11}\setminus \{z_1\} )\cup( \z10\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
+Case 2: neighboring database is not a change in entry within a subgroup. Thus WLOG $Z' =(\z{11}\setminus \{z_1\} )\cup( \z{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h) <\gamma_{10}^{Z}(h)$ then
 
 $$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
-$$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+$$= \frac{1}{|Z'_{11}|} (\sum_{\z{11}} h(x)-h(x_1)) = \frac{1}{|\z{11}|-1} (\sum_{\z{11}} h(x)-h(x_1))$$
 Similarly,
 $$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{Z'_{10}} h(x)$$
-$$ = \frac{1}{|Z'_{10}|} (\sum_{\z10} h(x)+h(z_0))= \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0))$$
+$$ = \frac{1}{|Z'_{10}|} (\sum_{\z{10}} h(x)+h(z_0))= \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0))$$
 
 Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for details on include here? Refactor and add maxes}), $$|\Gamma^{Z'}- \Gamma^{Z}| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
 
@@ -224,11 +232,11 @@ Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity (\dk{see appendix for 
 $$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
 Let $\del_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\del_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
 
-$$\del_{10} = \frac{1}{|\z10|+1} (\sum_{\z10} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
-$$\del_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+$$\del_{10} = \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
+$$\del_{11} = \gamma_{11}^{Z}- \frac{1}{|\z{11}|-1} (\sum_{\z{11}} h(x)-h(x_1))$$
 \dk {insert template}
 
-$$|\Gamma^{Z'}- \Gamma^{Z}| = \del_{10} + \del_{11}= \frac{\gamma_{10}}{|\z10|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+$$|\Gamma^{Z'}- \Gamma^{Z}| = \del_{10} + \del_{11}= \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|\z{11}|+1} $$
 
 {\bf Proof 2}
 
@@ -252,7 +260,7 @@ $$\del\Gamma = \frac{\del}{dD_{10}} + \frac{\del}{dD_{11}}$$
 \dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\del$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..
 Q: should we do this proof in finite sample context or just translate this to the finite sample (with $\del = 1/n$)}
 
-\section{Approximate fairness with differentially privacy}
+\section{Approximate fairness with differential privacy}
 
 
 
@@ -265,7 +273,7 @@ $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{ with prob
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\del u(Z,h) = ||(\del\ell,\del{\Gamma})||_1 \approx O(||1/n,1/|\z10|+1/|Z_{11}|||_1)$$
+$$\del u(Z,h) = ||(\del\ell,\del{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|\z{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -324,9 +332,9 @@ Let $$X_i^a = n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg 
 
 Then $$\max_{a\in \{0,1\}}\frac{1}{n} \sum_Z X_i^a =\frac{1}{n}  \max_{a\in \{0,1\}} \sum_Z n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y]$$
 
-$$= |\sum_Z \frac{\1_{z\in \z10}h(x)}{|\z10|} - \frac{\1_{z\in Z_{11}}h(x)}{|Z_{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
+$$= |\sum_Z \frac{\1_{z\in \z{10}}h(x)}{|\z{10}|} - \frac{\1_{z\in \z{11}}h(x)}{|\z{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
-$$= |\frac{1}{|\z10|} \sum_{z\in \z10} h(x) - \frac{1}{|Z_{11}|} \sum_{z\in Z_{11}} h(x)| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
+$$= |\frac{1}{|\z{10}|} \sum_{z\in \z{10}} h(x) - \frac{1}{|\z{11}|} \sum_{z\in \z{11}} h(x)| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
 $$=|\gamma_{10}^Z - \gamma_{11}^Z| + \ell^Z(h) $$
 $$=||(\Gamma^Z(h), \ell^Z(h)||_{1} = u(Z,h)$$
