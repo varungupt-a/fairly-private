@@ -79,11 +79,16 @@
 %Or just google stuff
 
 \title{Privacy $\cap$ Fairness}
-{\author{Rachel Cummings, Varun Gupta, \\Dhamma Kimpara, Jamie Morgenstern}}
+{\author{Rachel Cummings, Varun Gupta, Dhamma Kimpara, Jamie Morgenstern}}
 \maketitle
-\section{Preliminaries}
-\dk{TODO: model, what are we given, what do we have access to?}
 
+
+\section{Introduction}
+\subsection{Related Work}
+\subsection{Our Contributions}
+We present two contributions to the study of the intersection of differential privacy and fairness in machine learning. First, we show that it is impossible to achieve both differential privacy and exact fairness, as we will define below. We then consider a notion of approximate fairness and show that a private learner is able to accurately achieve fairness with reasonable sample complexity. \vg{Finally, we present a polynomial time algorithm to achieve the differentially private and approximately fair scheme outlined above and show its empirical performance on certain datasets.}
+
+\section{Preliminaries}
 We consider the interaction of differential privacy and fairness and look at two settings, discrete and continuous. \\ \\
 We begin with notation of continuous setting:
 
@@ -105,7 +110,7 @@ We first define the neighboring relation for differential privacy in the continu
 We now give a neighboring relation in terms of a finite sample \vg{from privacy book - Dwork Roth cite?}.
 
 \begin{defn} ref(kasivi?)
-Samples (multisets) $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for exactly one $\i \in [n]$ (i.e. the Hamming distancebetween $Z$ and $Z'$ is 1). 
+Samples (multisets) $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for exactly one $\i \in [n]$ (i.e. the Hamming distancebetween $Z$ and $Z'$ is 1).
 \end{defn}
 
 \begin{defn}
@@ -147,7 +152,7 @@ We now focus on the equality of opportunity setting.
 Formulate finite sample setting with arbitrary distribution D over X,Y. State goal of the learner. State first traditional error minimization. Talk about reformulation into also considering fairness. \dk {do we need to factor a weight $\lambda$ into the new error function? ie. $\ell + \lambda \Gamma$}
 
 \begin{defn}
-	(Agnostic PAC Learning) A concept class $\C$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\cdot,\cdot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $\X$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, \log(1/\beta))$, $z_i = (x_i, a_i, y_i)$ drawn i.i.d. from D for $i \in [n]$, algorithm $\A$ outpus a hypothesis $h \in \H$ satisfying 
+	(Agnostic PAC Learning) A concept class $\C$ over $\X$ is PAC learnable using hypothesis class $\H$ if there exists an algorithm $\A$ and a polynomial $poly(\cdot,\cdot)$ such that for all $d \in \mathbb{N}$, all concepts $c \in \mathcal{C}_d$, all distributions $D$ on $\X$ and all $\alpha,\beta \in (0,1/2)$, given inputs $\alpha,\beta,$ and $Z = (z_1, ... z_n)$, where n = $poly(d, 1/\alpha, \log(1/\beta))$, $z_i = (x_i, a_i, y_i)$ drawn i.i.d. from D for $i \in [n]$, algorithm $\A$ outpus a hypothesis $h \in \H$ satisfying
 	$$\Pr[err(h) \leq OPT + \alpha] \geq 1-\beta.$$
 
 \end{defn}
