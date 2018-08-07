@@ -16,7 +16,7 @@
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\A}{\mathcal{A}}
 \renewcommand{\H}{\mathcal{H}}
-\newcommand{\C}{\mathcal{C}}
+\renewcommand{\C}{\mathcal{C}}
 \newcommand{\X}{\mathcal{X}}
 \renewcommand{\S}{\mathcal{S}}
 
@@ -202,9 +202,9 @@ In this setting, we have full access to the continuous data distribution $D$ ove
 	$$D_{ya} := \{d_i \in D | y_i = y, a_i = a \}.$$
 \end{defn}
 \begin{defn}
-	(non-trivial hypothesis class). We say that a hypothesis class $\H$ is {\bf non-trivial} if there exists $d_1, d_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
+	(non-trivial hypothesis class). We say that a hypothesis class $\H$ is {\bf non-trivial} if there exists $z_1, z_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
 \end{defn}
-\begin{lemma}Let $\mathcal{H}$ be a non-trivial hypothesis class. Releasing an exactly fair hypothesis $h\in \mathcal{H}$ in a differentially private manner is impossible.
+\begin{lemma}Let $\mathcal{H}$ be a non-trivial hypothesis class. Then releasing an exactly fair hypothesis $h\in \mathcal{H}$ in a differentially private manner is impossible.
 \end{lemma}
 \dk{ (currently in weaker eq. of opp. fairness notion, can also be done for stronger notions.) TODO: general proof of impossibility given a `reasonable' fairness constraint on the confusion matrix? Seems like it would be difficult since need to construct neighboring databases. Hence TODO: proof for eq. odds? or say easy extension into other `reasonable' fairness notions.}
 
@@ -229,7 +229,8 @@ which violates the constraint of privacy in Definition 1.
 
 
 
-{\bf Corollary 1} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1}).$
+\begin{corollary} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
+\end{corollary}
 
 \vg{Proof 1 is in the finite sample setting and Proof 2 is in the distributional setting, not sure which of the two to keep. Finite sample is easier/more applicable but the distributional is general/converted easily to finite. We're leaning towards keeping finite sample but aren't sure }
 
@@ -268,7 +269,7 @@ Let $\zt_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\zt_{11} = \gamma_{11}^{
 
 $$\zt_{10} = \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
 $$\zt_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
-\dk {insert template}
+\dk {insert rest of proof, easy algebra}
 
 $$|\Gamma^{Z'}- \Gamma^{Z}| = \zt_{10} + \zt_{11}= \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
 \end{proof}
@@ -301,13 +302,13 @@ $$\zt\Gamma = \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}.$$
 We now turn to the finite sample setting where we release a hypothesis that minimizes the training error. Our goal is now approximate fairness. We use the exponential mechanism in the same way as it is used in private PAC learning. Defining the sample as $Z$, $|Z| = n$ and $\Gamma^{Z}$ as our in-sample fairness measure, we give the algorithm:
 $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{ with probability proportional to }$$
 \begin{align}
-\exp(-\frac{\eps \cdot u(Z,h)}{2\zt u})
+\exp(-\frac{\eps \cdot u(Z,h)}{2\Delta u})
 \end{align}
 
 where
 
 $$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\zt u(Z,h) = ||(\zt\ell,\zt{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|Z_{11}|||_1)$$
+$$\Delta u(Z,h) = ||(\Delta\ell,\Delta{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|Z_{11}|||_1)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -323,40 +324,41 @@ This algorithm is the exponential mechanism in McSherry and Talwar, and so it is
 Note that except for when $|\H|$ is polynomial, the exponential mechanism does not necessarily yield a polynomial time algorithm.
 
 \dk{refactor constants}
-{\bf Theorem 1}(Generic private fair learner) For all $d \in \mathbb{N}$, any concept class $\mathcal{C}_d$ whose cardinality is at most $\exp(\text{poly}(d))$ is privately fairly agnostically learnable using $\H_d = \C_d$. More precisely, the learner uses $n = ..$ labeled examples from $D$, where $\eps, \alpha$, and $\beta$ are parameters of the private learning.
+\begin{theorem}
+	(Generic private fair learner) For all $d \in \mathbb{N}$, any concept class $\C_d$ whose cardinality is at most $\exp(\text{poly}(d))$ is privately and approximately fairly agnostically learnable using $\H_d = \C_d$. More precisely, the learner uses $n = ..$ labeled examples from $D$, where $\eps, \alpha$, and $\beta$ are parameters of the private learning.
+\end{theorem}
 %\dk{Q: ``the domain and range of the concepts in $\mathcal{C}$ is understood to be ensembles $X = \{X_d\}_{d\in \mathbb{N}}$ and $Y = \{Y_d\}_{d\in \mathbb{N}}$, where the representation of elements $X_d, Y_d$ is of size at most $d$''}
 
-{\it Proof.} Let $\A_{\eps}$ be as defined above. The privacy condition is satisfied by Lemma.
-
-Now we show that the utility condition is also satisfied. Let the event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$. We need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
-
-$$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-
-By Chernoff-Hoeffding bounds (insert appendix ref. see below proof for now),
-
-
-
-$$\Pr[|u(Z,h) - u(D,h)| \geq \rho] \leq 4\exp(\frac{-\rho^2n}{2})$$
-
-for all hypotheses $h \in \H_d$. Hence,
-
-$$\Pr[|u(Z,h) - u(D,h)| \geq \rho \text{ for some } h \in \H_d] \leq 4|\H_d|\exp(\frac{-\rho^2n}{2})$$
-
-\dk{need following proof? relatively similar to kasiviswanathan what can we learn privately}
-Now we analyze $\A_\eps(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\eps(Z) = h]$ is
-
-$$\frac{\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\eps}{2\zt u} \cdot u(Z,h'))} $$
-$$= \exp(-\frac{\eps}{2\zt u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
-$$\leq \exp(-\frac{\eps}{2\zt u}(u(Z,h) - (OPT + \rho)))$$
-
-Hence the probability that $\A_\eps(Z)$ outputs a hypothesis $h \in \H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most $|\H_d|\exp(-\frac{\eps\cdot\rho}{2\zt u})$
-
-Setting $\rho = \alpha/3$. If $u(D,h) \geq OPT + \alpha$ then $|u(D,h) - u(Z,h)| \geq \alpha/3$ or $u(Z,h) \geq OPT + 2\alpha/3$. Hence
-
-$$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\eps\cdot\alpha}{6\zt u})) \leq \beta$$.
-
-Where the inequality holds for $n \geq $. $\square$
-
+\begin{proof}
+	Let $\A_{\eps}$ be as defined above. The privacy condition is satisfied by Lemma.
+	
+	Now we show that the utility condition is also satisfied. Let the event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$. We need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
+	
+	$$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
+	
+	Recall that $Z$ is the sample drawn i.i.d. from a distribution $D$. By Chernoff-Hoeffding bounds (insert appendix ref. see below proof for now),
+	
+	$$\Pr[|u(Z,h) - u(D,h)| \geq \rho] \leq 4\exp(\frac{-\rho^2n}{2})$$
+	
+	for all hypotheses $h \in \H_d$. Hence,
+	
+	$$\Pr[|u(Z,h) - u(D,h)| \geq \rho \text{ for some } h \in \H_d] \leq 4|\H_d|\exp(\frac{-\rho^2n}{2})$$
+	
+	\dk{need following proof? relatively similar to kasiviswanathan what can we learn privately}
+	Now we analyze $\A_\eps(Z)$ conditioned on the event that for all $h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\eps(Z) = h]$ is
+	
+	$$\frac{\exp(-\frac{\eps}{2\Delta u} \cdot u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\eps}{2\Delta u} \cdot u(Z,h'))} \leq \frac{\exp(-\frac{\eps}{2\Delta u} \cdot u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\eps}{2\Delta u} \cdot u(Z,h'))} $$
+	$$= \exp(-\frac{\eps}{2\Delta u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
+	$$\leq \exp(-\frac{\eps}{2\Delta u}(u(Z,h) - (OPT + \rho)))$$
+	
+	Hence the probability that $\A_\eps(Z)$ outputs a hypothesis $h \in \H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most $|\H_d|\exp(-\frac{\eps\cdot\rho}{2\Delta u})$
+	
+	Setting $\rho = \alpha/3$. If $u(D,h) \geq OPT + \alpha$ then $|u(D,h) - u(Z,h)| \geq \alpha/3$ or $u(Z,h) \geq OPT + 2\alpha/3$. Hence
+	
+	$$\Pr[E] \leq |\H_d|(4\exp(\frac{-\alpha^2n}{18}) + \exp(-\frac{\eps\cdot\alpha}{6\Delta u})) \leq \beta$$.
+	
+	Where the inequality holds for $n \geq $. 
+\end{proof}
 {\bf Theorem} (Real-valued Additive Chernoff-Hoeffding Bound). Let $X_1,...,X_d$ be i.i.d. random variables with $\mathbb{E}[X_i] = \mu$ and $a \leq X_i \leq b$ for all $i$. Then for every $\rho > 0$,
 
 $$Pr[|\frac{\sum_i X_i}{n} - \mu| > \rho] \leq 2\exp(\frac{-2\rho^2n}{(b-a)^2})$$
@@ -366,7 +368,7 @@ Chernoff bounds for $u(Z,h)$:
 
 Let $$X_i^a = n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y]$$
 
-Then $$\max_{a\in \{0,1\}}\frac{1}{n} \sum_Z X_i^a =\frac{1}{n}  \max_{a\in \{0,1\}} \sum_Z n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y]$$
+Then $$\max_{a\in \{0,1\}}\frac{1}{n} \sum_Z X_i^a =\frac{1}{n}  \max_{a\in \{0,1\}} \sum_Z (n(\frac{\1_{z\in Z_{1a}}h(x)}{|Z_{1a}|} - \frac{\1_{z\in Z_{1\neg a}}h(x)}{|Z_{1 \neg a}|} ) + \Pr[h(x) \neq y])$$
 
 $$= |\sum_Z \frac{\1_{z\in \z{10}}h(x)}{|\z{10}|} - \frac{\1_{z\in Z_{11}}h(x)}{|Z_{11}|}| +  \sum_Z \frac{\Pr[h(x) \neq y] }{n}$$
 
@@ -384,32 +386,10 @@ By union bound (over the choice of $a \in \{0,1\}$
 $$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 4\exp(\frac{-2\rho^2n}{9})$$
 
 \dk {Note: can do extension into other definitions of fairness (with constant factor).
-Can also extend into a different norm for $u(Z,h)$ if we have a concentration of measure theorem for the different norm. There are also random matrix concentration bounds (can do concentration for all functions of the confusion matrix?)}
-
-\section{Approximately fair correction with differentially private linear programs}
-Do DP-LP
+	Can also extend into a different norm for $u(Z,h)$ if we have a concentration of measure theorem for the different norm. There are also random matrix concentration bounds (can do concentration for all functions of the confusion matrix?)}
 
 \section{A polynomial time algorithm \\for approximately fair and private classification}
-\clearpage
 
-Old stuff:
-
-Our initial approach was to look at this algorithm that achieves equality of opportunity or equal odds by flipping (with some probability) the label of the original non-fair algorithm, $\hat{Y}$, depending on the output label and the class membership $A$. $\hat{Y}$ is trained on $(X,Y)$, the features $X$ and the true label $Y$. When we flip labels given by $\hat{Y}$ we assume that we are given full access to the distribution $(Y,A,\hat{Y})$.
-
-Essentially, modifying $\hat{Y}$ we create a new classifier $\tilde{Y}$ that is fair by setting the probabilities $\text{Pr}\{\tilde{Y} = 1 | \hat{Y} = \hat{y}, A = a \}$ for $\hat{y}, a \in \{0,1\}$ appropriately. The ``pipeline'' with the available information at each stage laid out plainly is as follows:
-
-$$(X,Y) \xrightarrow[]{\text{vanilla training}} (\hat{Y},A,Y) \xrightarrow[]{\text{fairness}} \tilde{Y} $$
-
-
-\section{Privatizing Woodworth et. al. (2017)}
-(This is the follow-up to Eq. of Opp.)
-
-\subsection{Brief summary}
-This paper gives a two step algorithm in a learning model with finite samples and hypothesis classes. They split the training set into two parts. The first step is traditional ERM (with 0-1 loss) but with a sample based fairness constraint using half of the training set. The second step takes the outputted hypothesis from step 1 and does the same post-processing step as in the algorithm of Equality of Opportunity.
-
-
-\section{Privatizing first}
-With the finite sample setting and also the case that we cannot achieve exact fairness privately, this line of inquiry now seems to be fruitful. It would not take long to analyze the effect of first privatizing via synthetic data or adding noise to the training data (smallDB etc.) and then training a fair classifier.
 
 \section{Appendix}
 p-norm discussion from exp mech?
