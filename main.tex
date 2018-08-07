@@ -29,6 +29,10 @@
 \newcommand{\eps}{\epsilon}
 \newcommand{\zt}{\zeta}
 \newcommand{\zya}{\Z_{ya}}
+
+\newcommand{\g}[1]{\gamma_{#1}(h)}
+\newcommand{\gz}[1]{\gamma_{#1}^Z(h)}
+
 \iffalse
 \newcommand{\Z}[1]{Z_{#1}}
 \newcommand{\D}[1]{D_{#1}}
@@ -138,13 +142,13 @@ $$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x,a)$$
 \begin{defn}
 	($\alpha$-discrimination [srebro ref]). We say that a binary predictor $h$ is $\alpha$-discriminatory with respect to a binary protected attribute $A$ on the population or on a sample $Z$ if, respectively.
 
-$$\Gamma(h) := \max_{y\in \{0,1\}}|\gamma_{y0}(h) - \gamma_{y1}(h)| \leq \alpha ~~ or $$
-$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gamma_{y0}^Z(h) - \gamma_{y1}^Z(h)| \leq \alpha$$
+$$\Gamma(h) := \max_{y\in \{0,1\}}|\g{y0} - \g{y1}| \leq \alpha ~~ or $$
+$$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gz{y0} - \gz{y1}| \leq \alpha$$
 
 \end{defn}
 When $\alpha = 0$ we are in the exact fairness setting. Note that by [Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the population measure $\Gamma$ when $n$ is large. To achieve an approximate analog to equality of opportunity in definition 2. We define:
 
-$$\Gamma^Z(h) := |\gamma_{10}^Z(h) - \gamma_{11}^Z(h)| \leq \alpha.$$
+$$\Gamma^Z(h) := |\gz{10} - \gz{11}| \leq \alpha.$$
 
 We now focus on the equality of opportunity setting.
 \subsection{Preliminaries from learning theory}
@@ -218,7 +222,7 @@ $$\gamma_{10}^{Z'}(h) = \frac{1}{|\z10|} (h(x', 0) +\sum_{z \in \z10 \cup Z'_{10
 Then,
 
 $$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
-$$ = \gamma_{10}^{Z'}(h) - \gamma^Z_{11}(h) $$
+$$ = \gamma_{10}^{Z'}(h) - \gz{11} $$
 $$ \leq \frac{1}{|\z10|}  + \Gamma^{Z}(h) $$
 
 
