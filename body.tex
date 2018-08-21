@@ -3,6 +3,31 @@
 \jmcomment{Write an intro}
 \subsection{Related Work}
 
+The focus on fairness in machine learning and its relationship to
+differential privacy was explored in early work in the community (cite
+fairness through awareness). This work introduced the concept of
+treating similar people similarly, where “similarity” is defined as
+some task-specific metric over individuals.  The authors then point
+out that this desiderata can be formulated as a Lipschitz constraint
+and show how to satisfy it using tools from DP.
+
+More recently, (citet the paper from fat) raised questions of whether
+statistical notions of equitable predictive power, such as equalized
+odds (cite moritz), are compatible with privacy. In a limiting sense,
+when one talks about feature and model selection, there appears to be
+some tension here: an additional feature might increase the possible
+privacy loss an individual faces, while the additional feature should
+only make EO easier to satisfy (as alluded to in Hanna’s paper on
+exploration and exploitation). However, to the best of the authors’
+knowledge, no work has heretofore shown whether an ML algorithm can
+guarantee individuals differential privacy and their populations some
+kind of group fairness simultaneously.
+
+The technical tools we use for this work come from differential price
+vacy, using the exponential mechanism (cite), private SGD for our
+empirical results, and FILL IN ANY OTHER TOOLS WE USE.
+
+
 
 Related work we definitely want to cover: fairness through awareness,
 the paper proposing we study privacy + fairness, dwork's ``it isn't
