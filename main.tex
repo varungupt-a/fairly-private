@@ -1,0 +1,86 @@
+\documentclass[format = sigconf]{acmart}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{bbm}
+\usepackage{enumitem}
+
+\newcommand{\dk}[1]{\textcolor{red}{[DK: #1]}}
+\newcommand{\vg}[1]{\textcolor{blue}{[VG: #1]}}
+
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\A}{\mathcal{A}}
+\renewcommand{\H}{\mathcal{H}}
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\X}{\mathcal{X}}
+\renewcommand{\S}{\mathcal{S}}
+
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+
+\newcommand{\eps}{\epsilon}
+\newcommand{\zt}{\zeta}
+\newcommand{\zya}{Z_{ya}}
+
+\newcommand{\g}[1]{\gamma_{#1}(h)}
+\newcommand{\gz}[1]{\gamma_{#1}^Z(h)}
+
+\newcommand{\z}[1]{Z_{#1}}
+\renewcommand{\d}[1]{D_{#1}}
+
+\iffalse
+\newcommand{\g10}[1]{\gamma_{10}^Z(h)}
+\newcommand{\g11}{\gamma_{11}^Z(h)}
+
+\newcommand{\g10'}{\gamma_{10}^{Z'}(h)}
+\newcommand{\g11'}{\gamma_{11}^{Z'}(h)}
+
+\newcommand{\GZ}{\Gamma^{Z'}(h)}
+\newcommand{\GZ'}{\Gamma^{Z'}(h)}
+\fi
+
+\newcommand{\lzh}{\ell^{Z}(h)}
+
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+
+%
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+
+\begin{document}
+
+\title{Privacy $\cap$ Fairness}
+{\author{Rachel Cummings, Varun Gupta, Dhamma Kimpara, Jamie Morgenstern}}
+\maketitle
+
+\input{body.tex}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bib}
+
+
+
+\end{document}
