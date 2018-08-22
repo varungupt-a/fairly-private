@@ -1,8 +1,37 @@
 \section{Introduction}
 
-
+\jmcomment{Write an intro}
 \subsection{Related Work}
 
+The focus on fairness in machine learning and its relationship to
+differential privacy was explored in early work in the community (cite
+fairness through awareness). This work introduced the concept of
+treating similar people similarly, where “similarity” is defined as
+some task-specific metric over individuals.  The authors then point
+out that this desiderata can be formulated as a Lipschitz constraint
+and show how to satisfy it using tools from DP.
+
+More recently, (citet the paper from fat) raised questions of whether
+statistical notions of equitable predictive power, such as equalized
+odds (cite moritz), are compatible with privacy. In a limiting sense,
+when one talks about feature and model selection, there appears to be
+some tension here: an additional feature might increase the possible
+privacy loss an individual faces, while the additional feature should
+only make EO easier to satisfy (as alluded to in Hanna’s paper on
+exploration and exploitation). However, to the best of the authors’
+knowledge, no work has heretofore shown whether an ML algorithm can
+guarantee individuals differential privacy and their populations some
+kind of group fairness simultaneously.
+
+The technical tools we use for this work come from differential price
+vacy, using the exponential mechanism (cite), private SGD for our
+empirical results, and FILL IN ANY OTHER TOOLS WE USE.
+
+
+
+Related work we definitely want to cover: fairness through awareness,
+the paper proposing we study privacy + fairness, dwork's ``it isn't
+private and it isn't fair'' or whatever...
 
 \subsection{Our Contributions}
 We present two contributions to the study of the intersection of
@@ -43,7 +72,8 @@ For our results, we use two notions of a database:
 	\item a distribution $D$ over $\X$;
 	\item a finite sample, vector $Z = (z_1, ..., z_n)$ drawn i.i.d. from a distribution $D$ over $\X$.
 \end{enumerate}
-For each notion, there is an accompanying notion of a neighboring database. We present them here in respective order.
+For each notion, there is an accompanying notion of a neighboring
+database. We present them here in respective order.
 
 \begin{defn}
   (1) ($\zt$-closeness). Random variables $D$ and $D'$ taking values in
@@ -131,7 +161,7 @@ rates, the definition reduces to:
 $$\Gamma^Z(h) := |\gz{10} - \gz{11}| \leq \alpha.$$
 
 In the remainder of this paper, variable $\Gamma$ refers to this
-fairness measure. 
+fairness measure.
 
 \dk {talk about motivation for approx fairness because of finite sample
 (cannot achieve exact) and now also because of impossibility with privacy.}
