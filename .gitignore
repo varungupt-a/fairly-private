@@ -1,4 +1,6 @@
 main.*
 !main.tex
+body.*
+!body.tex
 .dropbox
 desktop.ini
