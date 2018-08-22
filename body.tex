@@ -1,8 +1,32 @@
 % !TEX root = main.tex
 
 \section{Introduction}
+Recent applications of machine learning in human-relevant domains
+raise concerns that too much of some individual's information might be
+leaked through a model learned on some training data. For example, if
+one learns a model based on historical health data, many algorithms
+have some real possibility of outputting a model containing
+information about individuals' HIV status or other sensitive
+information.  Resultingly, academia and industry have spent much
+effort designing and implementing \emph{differentially private}
+machine learning methods.
 
-\jm{Write an intro}
+Differential privacy gives a strong guarantee to individuals whose
+data we use to train a model; these human-centric uses of ML systems
+have also raised concerns of equity of the predictive power for a
+model on different populations. The \emph{fairness} of a model can be
+thought of as some equitable performance guarantee for individuals who
+will be evaluated by the model, rather than a guarantee for someone
+participating in the model's training process. When phrasing privacy
+and fairness of a model this way, a natural question arises: in what
+settings can we learn a model which is private in the training data
+while guaranteeing equitable performance for multiple populations on
+which the model will ultimately run? More formally, will it be
+possible to guarantee privacy of training data, fairness for the
+predictions made on two populations, and some accuracy overall?
+
+\jm{More stuff here}
+
 \subsection{Related Work}
 
 The focus on fairness in machine learning and its relationship to
