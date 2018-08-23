@@ -43,7 +43,7 @@ odds (cite moritz), are compatible with privacy. In a limiting sense,
 when one talks about feature and model selection, there appears to be
 some tension here: an additional feature might increase the possible
 privacy loss an individual faces, while the additional feature should
-only make EO easier to satisfy (as alluded to in Hanna'€™s paper on
+only make EO easier to satisfy (as alluded to in Hanna's paper on
 exploration and exploitation). However, to the best of the authors'
 knowledge, no work has heretofore shown whether an ML algorithm can
 guarantee individuals differential privacy and their populations some
@@ -251,7 +251,7 @@ We define private and approximately fair PAC learners as algorithms that satisfy
 \end{defn}
 
 \section{Achieving exact fairness and differential privacy is impossible}
-We start with the full distributional access setting (which can be translated to the finite sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (y_i,x_i,a_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may have arbitrary correlation with $a_i$, including containing a copy of it.
+We start with the full distributional access setting (which can be translated to the finite sample setting later). Let $\mathcal{X}$ be the data universe with elements $d_i = (x_i,a_i,y_i) \in \mathcal{X}$ where each entry consists respectively of the response, features, and protected attribute. Note that $x_i$ may have arbitrary correlation with $a_i$, including containing a copy of it.
 
 
 \dk {actually we could do an impossibility result for
@@ -260,10 +260,10 @@ We start with the full distributional access setting (which can be translated to
 
 \begin{defn}
 	For ease of notation we define
-	$$D_{ya} := \{d_i \in D | y_i = y, a_i = a \}.$$
+	$$\X_{ya} := \{d_i \in \X | y_i = y, a_i = a \}.$$
 \end{defn}
 \begin{defn}
-	(non-trivial hypothesis class). We say that a hypothesis class $\H$ is  \emph{non-trivial} if there exists $z_1, z_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
+	(non-trivial hypothesis class). We say that a hypothesis class $\H$ is  \emph{non-trivial} if there exists $d_1, d_0 \in \mathcal{X}$ such that for some $h \in \H$, $h(x_1) > h(x_0)$.
 \end{defn}
 \begin{lemma}Let $\mathcal{H}$ be a non-trivial hypothesis class. Then
   releasing an exactly fair hypothesis $h\in \mathcal{H}$ in a
@@ -277,31 +277,43 @@ TODO: proof for eq. odds? or say easy extension into other `reasonable'
 fairness notions.}
 
 \begin{proof}
-	\dk{should we use the notation $Z_{ya}$ or use the notation in this
-		proof (with $d_i$, $D_{ya}$) for the sake of differentiation}
-	Let $D, D'$ be $\zt$-close and suppose that the fair (as in
-  Definition 2) hypotheses $h$ is released by algorithm $\mathcal{A}$
-  on input of $D$. Let $d(\cdot)$ be the measure as defined by the
-  distribution $D$. Pick $d_1, d_0 \in D_{11}$ such that $h(x_1) >
+	We will construct distributions $D, D'$ that are $\zt$-close and show impossibility. Suppose that the fair (as in
+  Definition 2) hypothesis $h$ has a non-zero probability of being released by algorithm $\mathcal{A}$ on input of $D$. Let $d(\cdot)$ be the measure as 
+  induced by
+  distribution $D$. 
+  
+  Pick $d_1, d_0 \in \X_{11}$ such that $h(x_1) >
   h(x_0)$ and assume that $d_1, d_0 \in supp(D) \text{ and } supp(D')$.
-  Let $\zt < \min_{i,D,D'}(d_{D}(d_i))$ $D'$ be a database with $\zt$
+  Let $\zt < \min_{i,D,D'}(d_{D}(d_i))$. $D'$ be a database with $\zt$
   more probability mass of $d_1$ and $\zt$ less mass of $d_0$. Then
-  recalling that $d_i = (y_i, x_i, a_i)$:
+  recalling that $d_i = (x_i, a_i,y_i)$:
 
-$$\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \int_{D_{11}}h(x)dx +
-\frac{\zt}{d(D_{11})} h(x_1) - \frac{\zt}{d(D_{11})} h(x_0) $$
-$$= \Pr_{D}\{h(x) = 1 | a = 1, y=1\} + \frac{\zt}{d(D_{11})} (h(x_1) - h(x_0))$$
+$$\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \int_{\X_{11}}h(x)dx +
+\frac{\zt}{d(\X_{11})} h(x_1) - \frac{\zt}{d(\X_{11})} h(x_0) $$
+$$= \Pr_{D}\{h(x) = 1 | a = 1, y=1\} + \frac{\zt}{d(\X_{11})} (h(x_1) - h(x_0))$$
 $$>  \Pr_{D}\{h(x) = 1 | a = 1, y=1\}$$
 
 where the last inequality is due to the assumption that $h(x_1) >
-h(x_0)$. Hence hypothesis $h$ is unfair when applied to database $D'$
-and cannot be released by the exactly fair mechanism $\A$ on input of
+h(x_0)$. 
+
+Since we have not modified the distributions over $X_{10}$, $\Pr_{D'}\{h(x) = 1 | a = 1, y=1\} = \Pr_{D}\{h(x) = 1 | a = 1, y=1\}$.  Hence hypothesis $h$ is unfair (in the sense of definition 2.4) when evaluated on distribution $D'$
+and cannot be released by the exactly fair algorithm $\A$ on input of
 database $D'$. So
 
 $$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\eps)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 
 which violates the constraint of privacy in Definition 1.
 \end{proof}
+
+This result also applies to more general notions of statistical fairness. Definition 2.4, Equal Opportunity, is a strictly weaker notion of fairness than Equal Odds also defined in \dk{cite}. In other words, Equal Opportunity is a necessary condition for Equal Odds. 
+
+We can also use the same proof method to show impossibility of fairness and privacy 
+when we consider notions of approximate fairness such as disparate impact and mean 
+difference scores. Approximate in these notions of fairness meaning that the 
+resulting classifier (or anything released by the randomized algorithm) satisfies some hard threshold on the `level of discrimination' on the distribution. 
+One needs to construct neighboring distribution where when considering a hypothesis $h\in \H$, $h$ is fair on one distribution but not the other. 
+\dk {use `database' or `distribution' terminology?}
+
 
 \begin{lemma}
   $(\eps, \zt)$-DP and fairness is impossible. \vg{need proof?}
