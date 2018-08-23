@@ -67,10 +67,7 @@ privacy and exact fairness even in the setting where we have access to
 the full distribution of the data. We then consider a notion of
 approximate fairness in the finite sample access setting and show that
 there exists a private PAC learner that is differentially private and
-satisfies approximate fairness with high probability. \vg{Finally, we
-present a polynomial time algorithm to achieve the differentially
-private and approximately fair scheme outlined above and show its
-empirical performance on certain datasets.}
+satisfies approximate fairness with high probability. Finally, we present some incompatibility results concerning current practical  differentially private and fairness-ensuring learning algorithms (in-process methods). 
 
 
 \section{Preliminaries}
@@ -78,7 +75,7 @@ Let $\X$ be our data universe consisting of elements $z=(x,a,y)$
  where $x$ is the features, $a$ the protected (binary) attribute, and
  $y$ the binary response. Note that $x$ may have arbitrary correlation
  with $a$, including containing a copy of it. $\A(x)$ is the
- probability distribution over outputs of a randomized algorithm $A$ on
+ probability distribution over outputs of a randomized algorithm $\A$ on
  input $x$.
 
 % First we consider the interaction of differential privacy and fairness in the full distribution access setting in which we show the impossibility of achieving both.
@@ -98,20 +95,27 @@ For our results, we use two notions of a database:
 	\item a distribution $D$ over $\X$;
 	\item a finite sample, vector $Z = (z_1, ..., z_n)$ drawn i.i.d. from a distribution $D$ over $\X$.
 \end{enumerate}
+
 For each notion, there is an accompanying notion of a neighboring
 database. We present them here in respective order.
 
+For notion (1), we adapt the definition of neighboring databases in the continuous case from \citep{2dplimits}:
+
 \begin{defn}
-  (1) ($\zt$-closeness). Random variables $D$ and $D'$ taking values in
+  ($\zt$-closeness). Distributions $D$ and $D'$ taking values in
   $\X$ are $\zt$-close if the statistical distance between their
   distributions is at most $\zt$, i.e.,
 
 	$$ ||D-D'||_{\textit{SD}} :=\frac{1}{2}\sum_{d\in \mathcal{X}}
   |\Pr[D=d] - \Pr[D'=d]| \leq \zeta.$$
+  
+  Neighboring databases are $\zt$-close distributions.
 \end{defn}
 
-\begin{defn} \vg{ref(kasivi, Dwork?}.
-  (2) Samples $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for
+For notion (2), we define neighboring samples as samples that differ in one entry.
+
+\begin{defn} \citep{dpbook}
+  Samples $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for
   exactly one $i \in [n]$ (i.e. the Hamming distance between $Z$ and
   $Z'$ is 1).
 \end{defn}
@@ -124,8 +128,8 @@ For each of these notions, the definition of differential privacy
 remains the same. That is, a randomized algorithm is private if
 neighboring databases induce close distributions on its outcomes:
 
-\begin{defn}
-  ($\eps$-differential privacy). \vg{ref Dwork} A randomized algorithm
+\begin{defn} 
+  ($\eps$-differential privacy \citep{dworknoisesens}) A randomized algorithm
     $\A$ is $\eps$-differentially private if for all pairs of
     neighboring databases $D,D'$ and for all sets $\S$ of outputs,
     $$\Pr[\A(D)\in \S] \leq \exp(\eps)\Pr[\A(D')\in \S].$$
@@ -142,8 +146,8 @@ distribution $D = (X, A, Y)$ over $\X$, where $X$ are the features, $A$
 sensitive attributes, and $Y$ true labels, respectively. Hence we state
 our notion of exact fairness in these terms:
 
-\begin{defn}
-  (Equal Opportunity). We say that a binary predictor $h$ satisfies
+\begin{defn} 
+  (Equal Opportunity \citep{hardteqop}). We say that a binary predictor $h$ satisfies
     equal opportunity with respect to $A$ and $Y$ if
     $$\Pr\{h = 1 | A =1, Y=1\} = \Pr\{h = 1 | A=0, Y=1\}.$$
 \end{defn}
@@ -168,8 +172,8 @@ We also have an analogous definition for the group-conditional true
 positive rates: \dk {clarify summation as such?: $\sum_{z_i \in \zya} h(x_i)$}
 $$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x).$$
 
-\begin{defn}
-	($\alpha$-discrimination [srebro ref]). We say that a binary
+\begin{defn} 
+	($\alpha$-discrimination \citep{woodworthFollowUp}). We say that a binary
     predictor $h$ is $\alpha$-discriminatory with respect to a binary
     protected attribute $A$ on the population or on a sample $Z$ if,
     respectively:
@@ -179,14 +183,14 @@ $$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gz{y0} - \gz{y1}| \leq \alpha.$$
 
 \end{defn}
 When $\alpha = 0$ we are in the exact fairness setting. Note that by
-[Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the
+\citep{woodworthFollowUp} the sample fairness measure $\Gamma^Z$ converges to the
 population measure $\Gamma$ when $n$ is large. For the
-analog of Definition 2.4 (eq. opp) where we only consider true positive
+analog of Definition 2.4 (Equality of Opportunity) where we only consider true positive
 rates, the definition reduces to:
 
 $$\Gamma^Z(h) := |\gz{10} - \gz{11}| \leq \alpha.$$
 
-In the remainder of this paper, variable $\Gamma$ refers to this
+In the remainder of this paper, $\Gamma$ refers to this
 fairness measure.
 
 \dk {talk about motivation for approx fairness because of finite sample
@@ -194,7 +198,7 @@ fairness measure.
 
 \subsection{Preliminaries from learning theory}
 \dk {do we need to factor a weight $\lambda$ into the new error
-function? ie. $\ell + \lambda \Gamma$}
+function? ie. $\ell + \lambda \Gamma$ talk in end of proof}
 \dk {very not sure how to write this section, help?}
 A concept is a function that labels examples taken from the domain $X$
 by the elements of the range $Y$. A \emph{concept class} is a set of
@@ -417,8 +421,8 @@ with probability proportional to }$$
 
 where
 
-$$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
-$$\Delta u(Z,h) = ||(\Delta\ell,\Delta{\Gamma})||_1 \approx O(||1/n,1/|\z{10}|+1/|Z_{11}|||_1)$$
+$$u(Z,h) = \Gamma^Z(h) + \ell^Z(h)$$.
+$$\Delta u(Z,h) = \Delta\ell + \Delta{\Gamma} \approx O(1/n + 1/|\z{10}|+1/|Z_{11}|)$$
 
 $$\ell^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
@@ -429,7 +433,6 @@ This algorithm is the exponential mechanism in McSherry and Talwar, and so it is
 \begin{lemma}
   The algorithm $\A_\eps$ is $\eps$-differentially private.
 \end{lemma}
-\vg{Need proof?}
 
 Note that except for when $|\H|$ is polynomial, the exponential
 mechanism does not necessarily yield a polynomial time algorithm.
@@ -453,7 +456,7 @@ mechanism does not necessarily yield a polynomial time algorithm.
   event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$. We
   need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
 
-	$$u(Z,h) = ||(\Gamma^Z(h), \ell^Z(h)||_{1}$$.
+	$$u(Z,h) = \Gamma^Z(h)+ \ell^Z(h)$$.
 \dk {introduce this before proof and have a discussion about it? OR discussion after proof about utility and implication of $\alpha$ accuracy/fairness whp.}
 
 	Recall that $Z$ is the sample drawn i.i.d. from a distribution $D$.
