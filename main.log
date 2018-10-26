@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6745 64-bit) (preloaded format=pdflatex 2018.8.3)  26 OCT 2018 11:30
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6745 64-bit) (preloaded format=pdflatex 2018.8.3)  23 AUG 2018 13:49
+>>>>>>> 9372fd8bfdf5b8d0e99ed55210d50cfa7067ee85
 entering extended mode
 **./main.tex
 (main.tex
@@ -1438,7 +1442,11 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 9.0pt on input line 11.
 ) (prelims.tex
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
+<<<<<<< HEAD
 (Font)              scaled to size 9.0pt on input line 4.
+=======
+(Font)              scaled to size 9.0pt on input line 74.
+>>>>>>> 9372fd8bfdf5b8d0e99ed55210d50cfa7067ee85
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1448,6 +1456,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 7.3pt on input line 36.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
+<<<<<<< HEAD
 (Font)              scaled to size 9.0pt on input line 149.
  [2.2]) (exact.tex
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
@@ -1460,6 +1469,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--16
 
 Underfull \hbox (badness 10000) in paragraph at lines 14--16
 
+=======
+(Font)              scaled to size 9.0pt on input line 220.
+ [2.2]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
+(Font)              scaled to size 9.0pt on input line 272.
+
+Overfull \hbox (5.93845pt too wide) detected at line 296
+[]\LMS/ntxsy/m/n/9 f\OML/nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x\LM
+S/ntxsy/m/n/9 º \U/ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 1\LMS/ntxsy/m
+/n/9 j\OML/nxlmi/m/it/9 a \U/ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 1\O
+ML/nxlmi/m/it/9 ; y \U/ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 1\LMS/ntx
+sy/m/n/9 g \U/ntxmia/m/it/9 = [][] \OML/nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nx
+lmi/m/it/9 x\LMS/ntxsy/m/n/9 º\OML/nxlmi/m/it/9 dx \U/ntxmia/m/it/9 ý []\OML/nx
+lmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x[]\LMS/ntxsy/m/n/9 º   []\OML/
+nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x[]\LMS/ntxsy/m/n/9 º
+ []
+
+
+Overfull \hbox (5.44771pt too wide) in paragraph at lines 303--306
+[]\T1/LinuxLibertineT-TLF/m/n/9 (-20) Since we have not mod-i-fied the dis-tri-
+bu-tions over $\OML/nxlmi/m/it/9 X[]$\T1/LinuxLibertineT-TLF/m/n/9 (-20) , $[][
+]\LMS/ntxsy/m/n/9 f\OML/nxlmi/m/it/9 h\LMS/ntxsy/m/n/9 ¹\OML/nxlmi/m/it/9 x\LMS
+/ntxsy/m/n/9 º \U/ntxmia/m/it/9 =
+>>>>>>> 9372fd8bfdf5b8d0e99ed55210d50cfa7067ee85
  []
 
 [5.5]
@@ -1492,6 +1525,7 @@ and I'll forget about whatever was undefined.
 
 Underfull \hbox (badness 10000) in paragraph at lines 53--58
 
+<<<<<<< HEAD
  []
 
 
@@ -1558,6 +1592,32 @@ Package natbib Warning: Empty `thebibliography' environment on input line 40.
 ) [6.6]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 131.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 131.
+=======
+Overfull \hbox (15.03358pt too wide) in paragraph at lines 329--330
+\OT1/LinuxLibertineT-TLF/m/n/9 (-20) 1\LMS/ntxsy/m/n/9 j\OML/nxlmi/m/it/9 y \U/
+ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 (-20) 1\OML/nxlmi/m/it/9 ; a \U/
+ntxmia/m/it/9 = \OT1/LinuxLibertineT-TLF/m/n/9 (-20) 1\LMS/ntxsy/m/n/9 gj$ \T1/
+LinuxLibertineT-TLF/m/it/9 (-20) has sen-si-tiv-ity $[]\LMS/ntxsy/m/n/9 ¹[]\OML
+/nxlmi/m/it/9 ; []; [] \U/ntxmia/m/it/9 ý []\OML/nxlmi/m/it/9 ; [] \U/ntxmia/m/
+it/9 ý
+ []
+
+[3.3] [4.4]
+LaTeX Font Info:    Try loading font information for U+bbm on input line 505.
+ (C:\Users\dhamm\AppData\Roaming\MiKTeX\2.9\tex\latex\bbm\ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+)
+
+LaTeX Font Warning: Font shape `U/bbm/m/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 505.
+
+) (main.bbl
+LaTeX Info: Redefining \tempurl on input line 91.
+LaTeX Info: Redefining \tempurl on input line 109.
+) [5.5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 119.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 119.
+>>>>>>> 9372fd8bfdf5b8d0e99ed55210d50cfa7067ee85
  (main.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 131.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 131.
@@ -1565,6 +1625,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 008B2FAEA4CC0A949479FED4B276F2AD;3026.
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  20052 strings out of 492973
  307535 string characters out of 3135933
  444797 words of memory out of 3000000
@@ -1608,4 +1669,50 @@ PDF statistics:
  254 PDF objects out of 1000 (max. 8388607)
  48 named destinations out of 1000 (max. 500000)
  53373 words of extra memory for PDF output out of 61914 (max. 10000000)
+=======
+ 19989 strings out of 492973
+ 306037 string characters out of 3135933
+ 440143 words of memory out of 3000000
+ 22969 multiletter control sequences out of 15000+200000
+ 185449 words of font info for 344 fonts, out of 3000000 for 9000
+ 1302 hyphenation exceptions out of 8191
+ 60i,17n,94p,797b,489s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\dhamm\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\public\bbm\dpi600\b
+bm9.pk>{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/libertine/lbt
+n_ncsllp.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/newtx/l
+ibertinealt.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/libe
+rtine/lbtn_oexx6f.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
+{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/libertine/lbtn_25tcs
+q.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/inconsolata/i4
+-t1-4.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/libertine/
+lbtn_7grukw.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/libe
+rtine/lbtn_nh77jq.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvip
+s/libertine/lbtn_naooyc.enc}{C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/en
+c/dvips/libertine/lbtn_76gpa5.enc}<C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fo
+nts/type1/public/inconsolata/Inconsolata-zi4r.pfb><C:/Users/dhamm/AppData/Roami
+ng/MiKTeX/2.9/fonts/type1/public/libertine/LinBiolinumT.pfb><C:/Users/dhamm/App
+Data/Roaming/MiKTeX/2.9/fonts/type1/public/libertine/LinBiolinumTB.pfb><C:/User
+s/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/libertine/LinLibertineT.p
+fb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/libertine/LinL
+ibertineTB.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/li
+bertine/LinLibertineTI.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/fonts/typ
+e1/public/newtx/fxlri-5letters.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/2.9/f
+onts/type1/public/newtx/fxlri-7letters.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/symbols/msbm10.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/
+2.9/fonts/type1/public/txfonts/rtxmi.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX
+/2.9/fonts/type1/public/newtx/rtxmi7.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX
+/2.9/fonts/type1/public/txfonts/rtxr.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX
+/2.9/fonts/type1/public/newtx/txexs.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/
+2.9/fonts/type1/public/txfonts/txsya.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX
+/2.9/fonts/type1/public/txfonts/txsyb.pfb><C:/Users/dhamm/AppData/Roaming/MiKTe
+X/2.9/fonts/type1/public/txfonts/txsyc.pfb><C:/Users/dhamm/AppData/Roaming/MiKT
+eX/2.9/fonts/type1/public/newtx/txsys.pfb><C:/Users/dhamm/AppData/Roaming/MiKTe
+X/2.9/fonts/type1/public/newtx/zxlr.pfb><C:/Users/dhamm/AppData/Roaming/MiKTeX/
+2.9/fonts/type1/public/newtx/zxlri.pfb>
+Output written on main.pdf (5 pages, 671249 bytes).
+PDF statistics:
+ 265 PDF objects out of 1000 (max. 8388607)
+ 47 named destinations out of 1000 (max. 500000)
+ 51325 words of extra memory for PDF output out of 51595 (max. 10000000)
+>>>>>>> 9372fd8bfdf5b8d0e99ed55210d50cfa7067ee85
 
