@@ -1,0 +1,11 @@
+# Fdb version 3
+["pdflatex"] 1540567628 "efficient.tex" "efficient.pdf" "efficient" 1540567628
+  "/usr/local/texlive/2018/texmf-dist/web2c/texmf.cnf" 1522066949 33362 cf75436e19743e94a92a6b1b9183c434 ""
+  "/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1533591976 2885977 70ed30483650576a754ca72dc95b144f ""
+  "/usr/local/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt" 1533594236 4221006 9c8051462a3b021052ea5f6172bf3b58 ""
+  "/usr/local/texlive/2018/texmf.cnf" 1533591970 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
+  "efficient.aux" 1540305774 8 a94a2480d3289e625eea47cd1b285758 ""
+  "efficient.tex" 1540567627 4221 ceaf6a449a08001d2fee03f67d9d4a11 ""
+  (generated)
+  "efficient.log"
+  "efficient.pdf"
