@@ -7,7 +7,8 @@
 We now turn to the finite sample setting where we release a hypothesis
 that minimizes the training error. Our goal is now approximate
 fairness. We use the exponential mechanism in the same way as it is
-used in private PAC learning. Defining the sample as $Z$, $|Z| = n$ and
+used in private PAC learning \cite{Kasiviswanathan:2011:WLP:2078965.2078976}. 
+Defining the sample as $Z$, $|Z| = n$ and
 $\Gamma^{Z}$ as our in-sample fairness measure, we give the algorithm:
 $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{
 	with probability proportional to }$$
@@ -24,12 +25,11 @@ $$err^Z(h) = \frac{1}{n} \sum_{(x,y) \in Z}\Pr[h(x) \neq y]$$
 
 
 
-This algorithm is the exponential mechanism in McSherry and Talwar, and so it is differentially private.
+This algorithm is the exponential mechanism in \citet{McSherry:2007:MDV:1333875.1334185}, and so it is differentially private.
 
 \begin{lemma}
 	The algorithm $\A_\eps$ is $\eps$-differentially private.
 \end{lemma}
-\vg{Need proof?}
 
 Note that except for when $|\H|$ is polynomial, the exponential
 mechanism does not necessarily yield a polynomial time algorithm.
@@ -49,15 +49,16 @@ mechanism does not necessarily yield a polynomial time algorithm.
 	satisfied by Lemma.
 	
 	Now we show that the utility condition is also satisfied. Let the
-	event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$. We
-	need that $\Pr[E] \leq \beta$. We define the utility of $h$ as
+	event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$.
+	We need that $\Pr[E] \leq \beta$ to get that with probability $\geq 1-\beta$,
 	
-	$$u(Z,h) = |(\Gamma^Z(h) + err^Z(h)|$$.
-	\dk {introduce this before proof and have a discussion about it? OR discussion after proof about utility and implication of $\alpha$ accuracy/fairness whp.}
+	$$u(h) \leq OPT + \alpha$$
+	$$\Rightarrow \Gamma(h) + err(h) \leq OPT_\Gamma + OPT_{err} +\alpha$$
+	$$\Rightarrow \Gamma(h) \leq OPT_\Gamma +\alpha \text{ and } err(h) \leq OPT_{err} +\alpha$$
 	
 	Recall that $Z$ is the sample drawn i.i.d. from a distribution $D$.
-	By Chernoff-Hoeffding bounds (insert appendix ref. see below proof
-	for now),
+	By Chernoff-Hoeffding bounds and \cite{woodworthFollowUp}, (insert appendix ref. see below proof
+	for now)
 	
 	$$\Pr[|u(Z,h) - u(D,h)| \geq \rho] \leq 18\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}})$$
 	
@@ -92,8 +93,7 @@ mechanism does not necessarily yield a polynomial time algorithm.
 	$$Pr[|\frac{\sum_i X_i}{n} - \mu| > \rho] \leq 2\exp(\frac{-2\rho^2n}{(b-a)^2})$$
 \end{theorem}
 
-\begin{lemma}[srebro ref]
-	For $\delta \in (0,1/2)$ and a binary predictor $h$,
+\begin{lemma}\text{\cite{woodworthFollowUp}} For $\delta \in (0,1/2)$ and a binary predictor $h$,
 	$$\Pr[|\Gamma(h) - \Gamma^Z(h)|>\rho ] \leq 16 \exp(\frac{1}{4}\rho^2n
 	\min_{ya}{P_{ya}}) = \delta$$
 \end{lemma}
@@ -101,7 +101,7 @@ mechanism does not necessarily yield a polynomial time algorithm.
 \begin{lemma}[Concentration of utility]
 	For $\delta \in (0,1/2)$ and a binary predictor $h$,
 	$$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 18\exp(-\min_{ya}{\frac{\rho^2 n
-			P_{ya}}{16}})$$
+	P_{ya}}{16}})$$
 \end{lemma}
 \begin{proof}
 	Fix an $h \in \H$. Let $err^Z = err^Z(h)$, $\Gamma^Z = \Gamma^Z(h)$, $err = err(h)$, $\Gamma = \Gamma(h)$ and $P_{ya} = \Pr[Y=y, A=a]$
@@ -116,7 +116,6 @@ mechanism does not necessarily yield a polynomial time algorithm.
 	Where the first inequality follows from the triangle inequality, the second from union bound, and the third from Lemma 4.4 and Theorem 4.3.
 \end{proof}
 
-$$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 4\exp(\frac{-2\rho^2n}{9})$$
 
 \dk {Note: can do extension into other definitions of fairness (with constant factor).
 	Can also extend into a different norm for $u(Z,h)$ if we have a

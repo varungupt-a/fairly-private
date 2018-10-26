@@ -29,7 +29,7 @@ For each notion, there is an accompanying notion of a neighboring
 database. We present them here in respective order.
 
 \begin{defn}
-  (1) ($\zt$-closeness). Random variables $D$ and $D'$ taking values in
+  ($\zt$-closeness) \cite{2dplimits}. (1) Random variables $D$ and $D'$ taking values in
   $\X$ are $\zt$-close if the statistical distance between their
   distributions is at most $\zt$, i.e.,
 
@@ -37,7 +37,7 @@ database. We present them here in respective order.
   |\Pr[D=d] - \Pr[D'=d]| \leq \zeta.$$
 \end{defn}
 
-\begin{defn} \vg{ref(kasivi, Dwork?}.
+\begin{defn} \cite{Kasiviswanathan:2011:WLP:2078965.2078976}.
   (2) Samples $Z$ and $Z'$ are neighboring if $z_i \neq z_i'$ for
   exactly one $i \in [n]$ (i.e. the Hamming distance between $Z$ and
   $Z'$ is 1).
@@ -52,38 +52,40 @@ remains the same. That is, a randomized algorithm is private if
 neighboring databases induce close distributions on its outcomes:
 
 \begin{defn}
-  ($\eps$-differential privacy). \vg{ref Dwork} A randomized algorithm
+  ($\eps$-differential privacy). \cite{dpbook} A randomized algorithm
     $\A$ is $\eps$-differentially private if for all pairs of
     neighboring databases $D,D'$ and for all sets $\S$ of outputs,
     $$\Pr[\A(D)\in \S] \leq \exp(\eps)\Pr[\A(D')\in \S].$$
 \end{defn}
-\dk{need to talk about composition/post-processing theorems and/or exponenetial mechanism?}
+\dk{need to talk about composition/post-processing theorems and/or exponential mechanism?}
 
+\begin{theorem} Adaptive composition
+\end{theorem}
 
 \subsection{Exact Fairness}
 
 In this setting our database notion is (1): a distribution $D$ over
 $X$. This corresponds with the full distributional access setting of
-[cite eq of opp hardt] where we have access to the joint probability
+\cite{hardteqop} where we have access to the joint probability
 distribution $D = (X, A, Y)$ over $\X$, where $X$ are the features, $A$
 sensitive attributes, and $Y$ true labels, respectively. Hence we state
 our notion of exact fairness in these terms:
 
 \begin{defn}
-  (Equal Opportunity). We say that a binary predictor $h$ satisfies
+  (Equal Opportunity) \cite{hardteqop}. We say that a binary predictor $h$ satisfies
     equal opportunity with respect to $A$ and $Y$ if
     $$\Pr[h = 1 | Y=1, A=1] = \Pr[h = 1 | Y=1, A=0].$$
     
    	(Equality of group conditional true positive rates) We will denote these probabilities as,
-   	$$\gamma_{ya}^{D} := \Pr[h = 1 | Y=y, A=a]$$
+   	$$\gamma_{ya} := \Pr[h = 1 | Y=y, A=a]$$
 \end{defn}
 
 Note that this is the weaker of the two definitions of fairness in
-Hardt et. al. however, it is sufficient to prove impossibility for this
+\citet{hardteqop} however, it is sufficient to prove impossibility for this
 notion since violating this notion implies violating the stronger
 notion, equal odds. These measures of fairness belong to a broader
 class of fairness constraints that is, constraints on functions of the
-confusion matrix of a classifier (convex constraints paper).
+confusion matrix of a classifier .
 
 For precision, we also assume throughout the paper that $\Pr[A=a, Y=y] >0$ for $a,y \in \{0,1\}$.
 
@@ -103,7 +105,7 @@ $$\gamma_{ya}^Z(h) = \frac{1}{|\zya|} \sum_{\zya} h(x).$$
 (This is some abuse of notation but the distinction between finite sample and full distribution settings will be clear from the context.)
 
 \begin{defn}
-	($\alpha$-discrimination [srebro ref]). We say that a binary
+	($\alpha$-discrimination) \cite{woodworthFollowUp}. We say that a binary
     predictor $h$ is $\alpha$-discriminatory with respect to a binary
     protected attribute $A$ on the population or on a sample $Z$ if,
     respectively:
@@ -113,7 +115,7 @@ $$\Gamma^Z(h) := \max_{y\in \{0,1\}}|\gz{y0} - \gz{y1}| \leq \alpha.$$
 
 \end{defn}
 When $\alpha = 0$ we are in the exact fairness setting. Note that by
-[Srebro ref] the sample fairness measure $\Gamma^Z$ converges to the
+\citet{woodworthFollowUp} the sample fairness measure $\Gamma^Z$ converges to the
 population measure $\Gamma$ when $n$ is large. For the
 analog of Definition 2.4 (eq. opp) where we only consider true positive
 rates, the definition reduces to:
@@ -175,7 +177,7 @@ We define private and approximately fair PAC learners as algorithms that satisfy
   privately and approximately fair agnostically learnable using
   hypothesis class $\H$ if there exists an algorithm $\A$ that takes
   inputs $\eps, \alpha, \beta, Z$, where $|Z|=n$ is polynomial in
-  $1/\eps, d, 1\alpha, \log(1/\beta)$ and satisfies
+  $1/\eps, d, 1/\alpha, \log(1/\beta)$ and satisfies
 	\begin{enumerate}
 		\item {[}Fairness{]} Algorithm $\A$ satisfies $\Pr[\Gamma(h) \leq
     OPT + \alpha] \geq 1-\beta$;
