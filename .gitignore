@@ -1,6 +1,6 @@
-main.*
-!main.tex
-body.*
-!body.tex
+*
+!*.tex
+!*.bib
+
 .dropbox
 desktop.ini
