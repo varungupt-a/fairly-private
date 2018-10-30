@@ -58,14 +58,13 @@ $$\Pr\{\mathcal{A}(D) = h\} \not\leq \exp(\eps)\Pr\{\mathcal{A}(D') = h\} = 0$$.
 which violates the definition of differential privacy (definition 2.3)
 \end{proof}
 
-This result also applies to more general notions of statistical fairness. Definition 2.4, Equal Opportunity, is a strictly weaker notion of fairness than Equal Odds also defined in \dk{cite}. In other words, Equal Opportunity is a necessary condition for Equal Odds.
+This result also applies to more general notions of statistical fairness. Definition 2.4, Equal Opportunity, is a strictly weaker notion of fairness than Equal Odds also defined in \citet{hardteqop}. In other words, Equal Opportunity is a necessary condition for Equal Odds.
 
 We can also use the same proof method to show impossibility of fairness and privacy
 when we consider notions of approximate fairness such as disparate impact and mean
 difference scores. Approximate in these notions of fairness meaning that the
 resulting classifier (or anything released by the randomized algorithm) satisfies some hard threshold on the `level of discrimination' on the distribution.
-One needs to construct neighboring distribution where when considering a hypothesis $h\in \H$, $h$ is fair on one distribution but not the other.
-\dk {use `database' or `distribution' terminology?}
+One needs to construct a neighboring distribution where when considering a hypothesis $h\in \H$, $h$ is fair on one distribution but not the other.
 
 
 \begin{lemma}
