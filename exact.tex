@@ -69,7 +69,7 @@ One needs to construct neighboring distribution where when considering a hypothe
 
 
 \begin{lemma}
-  $(\eps, \zt)$-DP and fairness is impossible. \vg{need proof?}
+  $(\eps, \zt)$-DP and fairness is impossible. \vg{ proof}
 \end{lemma}
 
 
@@ -78,19 +78,10 @@ One needs to construct neighboring distribution where when considering a hypothe
 \begin{lemma} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
 \end{lemma}
 
-\vg{Proof 1 is in the finite sample setting and Proof 2 is in the
-distributional setting, not sure which of the two to keep. Finite
-sample is easier/more applicable but the distributional is
-general/converted easily to finite. We're leaning towards keeping
-finite sample but aren't sure }
-
-\dk{this proof seems like appendix material}
-
-\dk{should we use the term "database" or "sample" for the finite sample setting?}
-\begin{proof}
 We examine two cases for neighboring databases $Z, Z'$:
+\begin{proof}
 
-Case 1: The difference in databases is in an entry within a subgroup
+Case 1: The difference in databases we consider is changing an entry within a subgroup
 (i.e. within $Z_{1a}$ and $Z_{1a}'$ for $a \in \{0, 1\}$). WLOG let $a
 = 0$. Let the differing entries be called $z \in \z{10}$ and $z' \in
 Z'_{10}$. Then, we have
@@ -100,45 +91,55 @@ $$\gamma^{Z'}_{11} = \gamma^Z_{11}$$
 but
 
 $$\gamma_{10}^Z(h) = \frac{1}{|\z{10}|} \sum_{\z{10}} h(x,0)$$.
-$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z{10}|} (\sum_{z \in \z{10} \cup \z{10}'} h(x, 0) + h(x', 0)).$$
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|\z{10}|} \Big(\sum_{z_i \in \z{10} \cap \z{10}'} h(x_i, 0) + h(x', 0) \Big).$$
 
 Then,
 
-$$ \Gamma^{Z'}(h) = \gamma_{10}^{Z'}(h) - \gamma_{10}^{Z'}(h) $$
-$$ = \gamma_{10}^{Z'}(h) - \gz{11} $$
+$$ \Gamma^{Z'}(h) = | \gamma_{10}^{Z'}(h) - \gamma_{11}^{Z'}(h) | $$
+$$ = | \gamma_{10}^{Z'}(h) - \gz{11} | $$
 $$ \leq \Gamma^{Z}(h) + \frac{1}{|\z{10}|} $$
 
 
-Case 2: The neighboring databases are different in that an entry is added to one subgroup and another entry is removed from the other subgroup. Thus WLOG $Z' =(Z_{11}\setminus
-\{z_1\} )\cup( \z{10}\setminus \{z_0\})$. Let $\gamma_{11}^{Z}(h)
-<\gamma_{10}^{Z}(h)$ then
+Case 2: The neighboring databases are different in that an entry moves from one subgroup and to another subgroup.
+Thus without loss of generality let
+$\gamma_{11}^{Z}(h) < \gamma_{10}^{Z}(h)$ and $Z' =(Z_{11}\setminus
+\{z_1\} )\cup( \z{10} \cup \{z_1\}),$ where $z_1$ is a positively labeled example. Then,
 
-$$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{1a}|} \sum_{Z'_{1a}} h(x)$$
-$$= \frac{1}{|Z'_{11}|} (\sum_{Z_{11}} h(x)-h(x_1)) = \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
+$$\gamma_{11}^{Z'}(h) = \frac{1}{|Z'_{11}|} \sum_{z_i \in Z'_{11}} h(x_i)$$
+$$= \frac{1}{|Z'_{11}|} \Big(\sum_{z_i \in Z_{11}} h(x_i)-h(x_1)\Big) = \frac{1}{|Z_{11}|-1} \Big(\sum_{z_i \in Z_{11}} h(x_i)-h(x_1)\Big)$$
 Similarly,
-$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{Z'_{10}} h(x)$$
-$$ = \frac{1}{|Z'_{10}|} (\sum_{\z{10}} h(x)+h(z_0))= \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0))$$
-
-Hence with notation $ \Gamma^Z = \Gamma^Z(h)$ for clarity, $$|\Gamma^{Z'}- \Gamma^{Z}| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
+$$\gamma_{10}^{Z'}(h) = \frac{1}{|Z'_{10}|} \sum_{z_i \in Z'_{10}} h(x_i)$$
+$$ = \frac{1}{|Z'_{10}|} \Big( \sum_{z_i \in \z{10}} h(x_i)+h(x_1) \Big)= \frac{1}{|\z{10}|+1} \Big( \sum_{z_i \in \z{10}} h(x_i)+h(x_1) \Big)$$
+%
+Thus, we see
+ $$|\Gamma^{Z'}(h) - \Gamma^{Z}(h)| = (\gamma_{10}^{Z'} - \gamma_{11}^{Z'}) - (\gamma_{10}^{Z} - \gamma_{11}^{Z})$$
 
 
 $$=(\gamma_{10}^{Z'}- \gamma_{10}^{Z}) + (\gamma_{11}^{Z} -\gamma_{11}^{Z'})$$
+%
 Let $\zt_{10}= \gamma_{10}^{Z'}- \gamma_{10}^{Z}$ and  $\zt_{11} = \gamma_{11}^{Z} -\gamma_{11}^{Z'}$
 
-$$\zt_{10} = \frac{1}{|\z{10}|+1} (\sum_{\z{10}} h(x)+h(z_0)) - \gamma_{10}^{Z}$$
-$$\zt_{11} = \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} (\sum_{Z_{11}} h(x)-h(x_1))$$
-\dk {insert rest of proof, easy algebra}
-
-$$|\Gamma^{Z'}- \Gamma^{Z}| = \zt_{10} + \zt_{11}= \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1} $$
+\begin{align*}
+	\zt_{10} &= \frac{1}{|\z{10}|+1} \Big( \sum_{z_i \in \z{10}} h(x_i)+h(z_1) \Big) - \gamma_{10}^{Z} \\
+	&= \frac{1 - \gamma_{10}^Z}{|Z_{10}| + 1}.
+\end{align*}
+%
+and
+\begin{align*}
+	\zt_{11} &= \gamma_{11}^{Z}- \frac{1}{|Z_{11}|-1} \Big(\sum_{z_i \in Z_{11}} h(x_i)-h(x_1) \Big) \\
+	&=\frac{1 -\gamma_{11}^Z}{|Z_{11}| - 1}.
+\end{align*}
+%
+Thus, we have
+$$|\Gamma^{Z'}(h)- \Gamma^{Z}(h)| = \zt_{10} + \zt_{11}= \frac{1 - \gamma_{10}^Z}{|\z{10}|+1} + \frac{1 - \gamma_{11}^Z}{|Z_{11}|-1}. $$
 \end{proof}
 
+\vg{possibly add/change to distributional}
 \begin{proof}
 Construct $\zt$-close neighboring databases $D$ and $D'$ such that
 
 $$\Pr[D'=d_{10}] - \Pr[D=d_{10}] = \zt$$
 $$\Pr[D=d_{11}] - \Pr[D'=d_{11}] = \zt$$
-
-
 
 and assume that $d_0, d_1 \in \text{supp}(D')$ and $\in \text{supp}(D)$. Let $d_{10} \in D_{10}$ and $d_{11} \in D_{11}$ and WLOG $\gamma_{10}^Z(h) > \gamma_{11}^Z(h)$ then,
 
@@ -150,5 +151,3 @@ $$\leq \Gamma^{D}(h) + \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}$$
 where $dD_{1a}$ is the measure of the set $D_{1a},$ for $a \in \{0,1\}$. Hence,
 $$\zt\Gamma = \frac{\zt}{dD_{10}} + \frac{\zt}{dD_{11}}.$$
 \end{proof}
-
-\dk{Q: more elegant/complete proof? right now it seems we are doing by cases. ie. $\zt$ close changes $\gamma_{ya}(h)$ by at most ... therefore ..}

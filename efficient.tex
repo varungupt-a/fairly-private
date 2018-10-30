@@ -11,7 +11,8 @@ When we set $T$ to be:
 $$T \geq (\frac{162\frac{1}{\eps}n^2 \sqrt{\ln(2/\delta) \ln(2/\delta_\eps)}(1+\ln n)(1+C)C}{v})^2$$
 $$= O(\frac{n^4(\ln n)^2 \ln(2/\delta) \ln(2/\delta_\eps)C^4}{\eps^2 v^2})$$
 
-Where $n$ is the number of samples, $\delta$ the failure probability of the algorithm, $v$ the accuracy parameter of the algorithm, $C$ a constant, and for $(\eps, \delta_\eps)$ - DP from adaptive composition.
+Where $n$ is the number of samples, $\delta$ the failure probability of the algorithm,
+$v$ the accuracy parameter of the algorithm, $C$ a constant, and for $(\epsilon, \delta_\epsilon)$ - DP from adaptive composition.
 \\ \\
 \newpage
 We have $\gamma_L^\prime \leq \frac{2C}{nT}
@@ -33,23 +34,23 @@ and $$T \geq (\frac{162\frac{1}{\eps}n^2 \sqrt{\ln(2/\delta) \ln(2/\delta_\eps)}
 This gives us
 %
 \begin{align*}
-\gamma_L^\prime &\leq \frac{\epsilon^4 v^3}{ n^7 \ln(\frac{1}{\delta_\epsilon})^2 \ln(n)^3 C^5 \ln(\frac{2}{\delta})^{\frac{3}{2}} } \text{OPT}
-+
-\frac{ \sqrt{\ln(\frac{1}{\delta_\epsilon})} (1 + \ln(n)) v }
-{ \ln(n) \sqrt{ \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon})} C^2 } \\
-& \quadd +
-\frac{ 2(1 + \ln(n)) \epsilon^2 v^2 }
-{ n^3 (\ln n)^2 \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\eps}) C^3 }
-\\
-&\leq
-\frac{\epsilon^4 v^3}{ n^7 \ln{(\frac{1}{\delta_\epsilon})}^2 \ln{(n)}^3 C^5 \ln{(\frac{2}{\delta})}^{\frac{3}{2}} } \text{OPT}
-+
-O \big(
-\frac{v}{\sqrt{\ln(2/\delta)}C^2}
-\\
-&\quad +
-\frac{ \epsilon^2 v^2 }
-{ n^3 \ln (n) \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\eps}) C^3 } \big)
+    \gamma_L^\prime &\leq \frac{\epsilon^4 v^3}{ n^7 \ln(\frac{1}{\delta_\epsilon})^2 \ln(n)^3 C^5 \ln(\frac{2}{\delta})^{\frac{3}{2}} } \text{OPT}
+    +
+    \frac{ \sqrt{\ln(\frac{1}{\delta_\epsilon})} (1 + \ln(n)) v }
+    { \ln(n) \sqrt{ \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon})} C^2 } \\
+    & \quadd +
+    \frac{ 2(1 + \ln(n)) \epsilon^2 v^2 }
+    { n^3 (\ln n)^2 \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon}) C^3 }
+    \\
+    &\leq
+    \frac{\epsilon^4 v^3}{ n^7 \ln{(\frac{1}{\delta_\epsilon})}^2 \ln{(n)}^3 C^5 \ln{(\frac{2}{\delta})}^{\frac{3}{2}} } \text{OPT}
+    +
+    O \big(
+    \frac{v}{\sqrt{\ln(2/\delta)}C^2}
+    \\
+    &\quad +
+    \frac{ \epsilon^2 v^2 }
+    { n^3 \ln (n) \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon}) C^3 } \big)
 \end{align*}
 %
 %
@@ -63,9 +64,9 @@ O \big(
 \\
 
 \begin{theorem}
-  [\vg{ref KV}] For nonnegative $D, S \subset \mathbb{R}^n_$, FTPL gives
+  [ \vg{ref KV} ] For nonnegative $D, S \subset \mathbb{R}^n$, FTPL gives
   \[ \mathbb{E}[\text{cost of FTPL}(\epsilon)] \leq
-  (1 + 2A \epsilon) \text{OPT} + \frac{2D(1 + \ln(n))}{\epsilon },\]
+  (1 + 2A \epsilon) \text{OPT} + \frac{2D(1 + \ln(n))}{\epsilon }, \]
   where for all $d, d' \in D$ and $s \in S,$
   $D \geq |d - d'|_1, R \geq |d \cdot s|, A \geq |s|_1$.
 \end{theorem}
@@ -74,7 +75,7 @@ O \big(
   [\vg{ref Freund Schapire}] Let $D^1, D^2, \ldots, D^T \in \nabla_{\mathcal{H}(S)}$
   be a sequence of distributions played by the Learner, and let $\lambda^1, \lambda^2, \ldots, \lambda^T \in \Lambda_{pure}$
   be the Auditor's sequence of approximate best responses against these distributions respectively.
-  Let $\bar D = \frac{1}{T} \tsum D^t$ and $\bar \lambda = \frac{1}{T} \tsum \lamba^t$
+  Let $\bar D = \frac{1}{T} \tsum D^t$ and $\bar \lambda = \frac{1}{T} \tsum \lambda^t$
   be the two players' empirical distributions over their strategies. Suppose that the regret of the learner satisfies
   \begin{align*}
     \tsum \mathbb{E}_{h \sim D^t}\big[ U(h, \lambda^t)\big] -
