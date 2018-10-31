@@ -2,60 +2,75 @@
 
 \section{A polynomial time algorithm for approximately fair and private classification}
 
-\subsection{Preliminaries}
-\begin{definition}
-	fairness
-\end{definition}
+We get that:
 
+$$R \leq v$$
 
+When we set $T$ to be:
+
+$$T \geq (\frac{162\frac{1}{\eps}n^2 \sqrt{\ln(2/\delta) \ln(2/\delta_\eps)}(1+\ln n)(1+C)C}{v})^2$$
+$$= O(\frac{n^4(\ln n)^2 \ln(2/\delta) \ln(2/\delta_\eps)C^4}{\eps^2 v^2})$$
+
+Where $n$ is the number of samples, $\delta$ the failure probability of the algorithm,
+$v$ the accuracy parameter of the algorithm, $C$ a constant, and for $(\epsilon, \delta_\epsilon)$ - DP from adaptive composition.
+\\ \\
+\newpage
+We have $\gamma_L^\prime \leq \frac{2C}{nT}
+\frac{\epsilon}
+{\sqrt{T\ln{(
+\frac{1}{\delta_{\epsilon}}
+)}}} \text{OPT}
++
+\frac{n^2
+\sqrt{\ln{(\frac{1}{\delta_\epsilon})}}
+}{\epsilon\sqrt{T}}
++
+\frac{2Cn(1+\ln{(n)})}{T}$
+%
+%
+and $$T \geq (\frac{162\frac{1}{\eps}n^2 \sqrt{\ln(2/\delta) \ln(2/\delta_\eps)}(1+\ln n)(1+C)C}{v})^2$$.
+%
+\\ \\
+This gives us
+%
+\begin{align*}
+    \gamma_L^\prime &\leq \frac{\epsilon^4 v^3}{ n^7 \ln(\frac{1}{\delta_\epsilon})^2 \ln(n)^3 C^5 \ln(\frac{2}{\delta})^{\frac{3}{2}} } \text{OPT}
+    +
+    \frac{ \sqrt{\ln(\frac{1}{\delta_\epsilon})} (1 + \ln(n)) v }
+    { \ln(n) \sqrt{ \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon})} C^2 } \\
+    & \quadd +
+    \frac{ 2(1 + \ln(n)) \epsilon^2 v^2 }
+    { n^3 (\ln n)^2 \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon}) C^3 }
+    \\
+    &\leq
+    \frac{\epsilon^4 v^3}{ n^7 \ln{(\frac{1}{\delta_\epsilon})}^2 \ln{(n)}^3 C^5 \ln{(\frac{2}{\delta})}^{\frac{3}{2}} } \text{OPT}
+    +
+    O \big(
+    \frac{v}{\sqrt{\ln(2/\delta)}C^2}
+    \\
+    &\quad +
+    \frac{ \epsilon^2 v^2 }
+    { n^3 \ln (n) \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon}) C^3 } \big)
+\end{align*}
+%
+%
+\\ \\ \\
+---------------
+\begin{align*}
+  \gamma_L^\prime &\leq \frac{\epsilon(1+C)\text{OPT}}
+  {T\sqrt{T\ln(\frac{1}{\delta_\epsilon})}} +
+  \frac{2n(1+\ln(n))\sqrt{\ln(\frac{1}{\delta_\epsilon})}}{\epsilon\sqrt{T}}
+\end{align*}
+\\
 
 \begin{theorem}
-	there exists fair-private polynomial time algorithm
-\end{theorem}
-
-\subsection{Differentially Private Follow the Perturbed Leader}
-\begin{theorem}
-	adaptive composition
-\end{theorem}
-
-\begin{theorem}
-	describe laplace mechanism. state DP
-\end{theorem}
-
-	\dk{give DP algorithm for FTPL}
-	
-\begin{theorem}
-	
-
-	
   [ \vg{ref KV} ] For nonnegative $D, S \subset \mathbb{R}^n$, FTPL gives
   \[ \mathbb{E}[\text{cost of FTPL}(\epsilon)] \leq
   (1 + 2A \epsilon) \text{OPT} + \frac{2D(1 + \ln(n))}{\epsilon }, \]
   where for all $d, d' \in D$ and $s \in S,$
   $D \geq |d - d'|_1, R \geq |d \cdot s|, A \geq |s|_1$.
 \end{theorem}
-
-\begin{lemma}
-	the algorithm is $\eps,\delta$ -DP 
-\end{lemma}
-
-\subsection{Efficient private and fair algorithm}
-
-\dk{insert modified roth alg}
-
-\begin{proof} Proof of main theorem 5.2
-
-\begin{align*}
-\gamma_L^\prime &\leq \frac{\epsilon(1+C)\text{OPT}}
-{T\sqrt{T\ln(\frac{1}{\delta_\epsilon})}} +
-\frac{2(1+\ln(n))\sqrt{\ln(m\frac{1}{\delta_\epsilon})}}{\epsilon\sqrt{T}}
-\end{align*}
-\\
-
-\end{proof}
-
-\subsection{results from other paper for appendix}
-
+%
 \begin{theorem}
   [\vg{ref Freund Schapire}] Let $D^1, D^2, \ldots, D^T \in \nabla_{\mathcal{H}(S)}$
   be a sequence of distributions played by the Learner, and let $\lambda^1, \lambda^2, \ldots, \lambda^T \in \Lambda_{pure}$
@@ -86,7 +101,7 @@ Appling Theorem 5.2, we have that we have $\gamma_L \leq
 Then, we get something like
 \[
 \gamma_L \leq
-\frac{2\epsilon(1+C)\text{OPT}}{T\sqrt{T\ln(\frac{1}{\delta_\eps})}} + \frac{2(1+\ln(n))\sqrt{\ln(\frac{1}{\delta_\eps})}}{\sqrt{T}\eps}
+\frac{2\epsilon(1+C)\text{OPT}}{T\sqrt{T\ln(\frac{1}{\delta_\eps})}} + \frac{2n(1+\ln(n))\sqrt{\ln(\frac{1}{\delta_\eps})}}{\sqrt{T}\eps}
 \]
 %\section{Appendix}
 %p-norm discussion from exp mech?

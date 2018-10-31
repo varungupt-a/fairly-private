@@ -7,7 +7,7 @@
 We now turn to the finite sample setting where we release a hypothesis
 that minimizes the training error. Our goal is now approximate
 fairness. We use the exponential mechanism in the same way as it is
-used in private PAC learning \cite{Kasiviswanathan:2011:WLP:2078965.2078976}. 
+used in private PAC learning \cite{Kasiviswanathan:2011:WLP:2078965.2078976}.
 Defining the sample as $Z$, $|Z| = n$ and
 $\Gamma^{Z}$ as our in-sample fairness measure, we give the algorithm:
 $$\mathcal{A}^\eps : \text{Output hypothesis }h \in \mathcal{H} \text{
@@ -47,45 +47,45 @@ mechanism does not necessarily yield a polynomial time algorithm.
 \begin{proof}
 	Let $\A_{\eps}$ be as defined above. The privacy condition is
 	satisfied by Lemma.
-	
+
 	Now we show that the utility condition is also satisfied. Let the
 	event $E = \{\A_{\eps} = h \text{ with } u(h) > OPT + \alpha\}$.
 	We need that $\Pr[E] \leq \beta$ to get that with probability $\geq 1-\beta$,
-	
+
 	$$u(h) \leq OPT + \alpha$$
 	$$\Rightarrow \Gamma(h) + err(h) \leq OPT_\Gamma + OPT_{err} +\alpha$$
 	$$\Rightarrow \Gamma(h) \leq OPT_\Gamma +\alpha \text{ and } err(h) \leq OPT_{err} +\alpha$$
-	
+
 	Recall that $Z$ is the sample drawn i.i.d. from a distribution $D$.
 	By Chernoff-Hoeffding bounds and \cite{woodworthFollowUp}, (insert appendix ref. see below proof
 	for now)
-	
+
 	$$\Pr[|u(Z,h) - u(D,h)| \geq \rho] \leq 18\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}})$$
-	
+
 	for all hypotheses $h \in \H_d$. Hence by union bound,
-	
+
 	$$\Pr[|u(Z,h) - u(D,h)| \geq \rho \text{ for some } h \in \H_d] \leq 18|\H_d|\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}})$$
-	
+
 	Now we analyze $\A_\eps(Z)$ conditioned on the event that for all
 	$h\in \H_d$, $|u(Z,h) - u(D,h)| < \rho$. For every $h \in \H_d$, $\Pr[\A_\eps(Z) = h]$ is
-	
+
 	$$\frac{\exp(-\frac{\eps}{2\Delta u} \cdot
 		u(Z,h))}{\sum_{h'\in\H_d}\exp(-\frac{\eps}{2\Delta u} \cdot u(Z,h'))}
 	\leq \frac{\exp(-\frac{\eps}{2\Delta u} \cdot
 		u(Z,h))}{\max_{h'\in\H_d}\exp(-\frac{\eps}{2\Delta u} \cdot u(Z,h'))} $$
 	$$= \exp(-\frac{\eps}{2\Delta u}(u(Z,h) - \min_{h'\in\H_d}u(Z,h')))$$
 	$$\leq \exp(-\frac{\eps}{2\Delta u}(u(Z,h) - (OPT + \rho)))$$
-	
+
 	Hence the probability that $\A_\eps(Z)$ outputs a hypothesis $h \in
 	\H_d$ such that $u(Z,h) > OPT + 2\rho$ is at most
 	$|\H_d|\exp(-\frac{\eps\cdot\rho}{2\Delta u})$
-	
+
 	Setting $\rho = \alpha/3$. If $u(D,h) \geq OPT + \alpha$ then
 	$|u(D,h) - u(Z,h)| \geq \alpha/3$ or $u(Z,h) \geq OPT + 2\alpha/3$.
 	Hence
-	
+
 	$$\Pr[E] \leq |\H_d|(18\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}}) + \exp(-\frac{\eps\cdot\alpha}{6\Delta u})) \leq \beta$$.
-	
+
 	Where the inequality holds for $n \geq $.
 \end{proof}
 \begin{theorem}[Real-valued Additive Chernoff-Hoeffding Bound.]
@@ -101,7 +101,7 @@ mechanism does not necessarily yield a polynomial time algorithm.
 \begin{lemma}[Concentration of utility]
 	For $\delta \in (0,1/2)$ and a binary predictor $h$,
 	$$\Pr[|u(Z,h) - u(D,h)| > \rho] \leq 18\exp(-\min_{ya}{\frac{\rho^2 n
-	P_{ya}}{16}})$$
+	P_{ya}}{16}}) = \delta$$
 \end{lemma}
 \begin{proof}
 	Fix an $h \in \H$. Let $err^Z = err^Z(h)$, $\Gamma^Z = \Gamma^Z(h)$, $err = err(h)$, $\Gamma = \Gamma(h)$ and $P_{ya} = \Pr[Y=y, A=a]$
@@ -110,9 +110,9 @@ mechanism does not necessarily yield a polynomial time algorithm.
 	&\leq \Pr[|\Gamma^Z - \Gamma|  + |err^Z - err| > \rho]\\
 	&\leq \Pr[|\Gamma^Z - \Gamma|> \frac{\rho}{2}]  + \Pr[|err^Z - err| > \frac{\rho}{2}]\\
 	&\leq 16\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}}) + 2\exp(\frac{-2\rho^2n}{4})\\
-	&\leq 18\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}})\\	
+	&\leq 18\exp(-\min_{ya}{\frac{\rho^2 n P_{ya}}{16}})\\
 	\end{align*}
-	
+
 	Where the first inequality follows from the triangle inequality, the second from union bound, and the third from Lemma 4.4 and Theorem 4.3.
 \end{proof}
 
