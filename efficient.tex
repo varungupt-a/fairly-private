@@ -13,6 +13,7 @@
 	there exists fair-private polynomial time algorithm
 \end{theorem}
 
+<<<<<<< HEAD
 \subsection{Differentially Private Follow the Perturbed Leader}
 \begin{theorem}
 	adaptive composition
@@ -28,6 +29,61 @@
 	
 
 	
+=======
+Where $n$ is the number of samples, $\delta$ the failure probability of the algorithm,
+$v$ the accuracy parameter of the algorithm, $C$ a constant, and for $(\epsilon, \delta_\epsilon)$ - DP from adaptive composition.
+\\ \\
+\newpage
+We have $\gamma_L^\prime \leq \frac{2C}{nT}
+\frac{\epsilon}
+{\sqrt{T\ln{(
+\frac{1}{\delta_{\epsilon}}
+)}}} \text{OPT}
++
+\frac{n^2
+\sqrt{\ln{(\frac{1}{\delta_\epsilon})}}
+}{\epsilon\sqrt{T}}
++
+\frac{2Cn(1+\ln{(n)})}{T}$
+%
+%
+and $$T \geq (\frac{162\frac{1}{\eps}n^2 \sqrt{\ln(2/\delta) \ln(2/\delta_\eps)}(1+\ln n)(1+C)C}{v})^2$$.
+%
+\\ \\
+This gives us
+%
+\begin{align*}
+    \gamma_L^\prime &\leq \frac{\epsilon^4 v^3}{ n^7 \ln(\frac{1}{\delta_\epsilon})^2 \ln(n)^3 C^5 \ln(\frac{2}{\delta})^{\frac{3}{2}} } \text{OPT}
+    +
+    \frac{ \sqrt{\ln(\frac{1}{\delta_\epsilon})} (1 + \ln(n)) v }
+    { \ln(n) \sqrt{ \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon})} C^2 } \\
+    & \quadd +
+    \frac{ 2(1 + \ln(n)) \epsilon^2 v^2 }
+    { n^3 (\ln n)^2 \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon}) C^3 }
+    \\
+    &\leq
+    \frac{\epsilon^4 v^3}{ n^7 \ln{(\frac{1}{\delta_\epsilon})}^2 \ln{(n)}^3 C^5 \ln{(\frac{2}{\delta})}^{\frac{3}{2}} } \text{OPT}
+    +
+    O \big(
+    \frac{v}{\sqrt{\ln(2/\delta)}C^2}
+    \\
+    &\quad +
+    \frac{ \epsilon^2 v^2 }
+    { n^3 \ln (n) \ln(\frac{2}{\delta}) \ln(\frac{2}{\delta_\epsilon}) C^3 } \big)
+\end{align*}
+%
+%
+\\ \\ \\
+---------------
+\begin{align*}
+  \gamma_L^\prime &\leq \frac{\epsilon(1+C)\text{OPT}}
+  {T\sqrt{T\ln(\frac{1}{\delta_\epsilon})}} +
+  \frac{2n(1+\ln(n))\sqrt{\ln(\frac{1}{\delta_\epsilon})}}{\epsilon\sqrt{T}}
+\end{align*}
+\\
+
+\begin{theorem}
+>>>>>>> 5a4a8821fa04d333d8fffcf0456a9148244448d3
   [ \vg{ref KV} ] For nonnegative $D, S \subset \mathbb{R}^n$, FTPL gives
   \[ \mathbb{E}[\text{cost of FTPL}(\epsilon)] \leq
   (1 + 2A \epsilon) \text{OPT} + \frac{2D(1 + \ln(n))}{\epsilon }, \]

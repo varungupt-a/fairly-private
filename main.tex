@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 \documentclass[format = sigconf]{acmart}
 
 \setcopyright{none}
@@ -134,3 +135,141 @@
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
+=======
+\documentclass[format = sigconf]{acmart}
+
+\setcopyright{none}
+
+
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{bbm}
+\usepackage{enumitem}
+
+\newcommand{\dk}[1]{\textcolor{red}{[DK: #1]}}
+\newcommand{\vg}[1]{\textcolor{blue}{[VG: #1]}}
+\newcommand{\jm}[1]{\textcolor{brown}{[Jamie: #1]}}
+\newcommand{\rc}[1]{\textcolor{DarkRed}{[Rachel: #1]}}
+
+
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\A}{\mathcal{A}}
+\renewcommand{\H}{\mathcal{H}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\X}{\mathcal{X}}
+\renewcommand{\S}{\mathcal{S}}
+
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+
+\newcommand{\eps}{\epsilon}
+\newcommand{\zt}{\zeta}
+\newcommand{\zya}{Z_{ya}}
+
+\newcommand{\g}[1]{\gamma_{#1}(h)}
+\newcommand{\gz}[1]{\gamma_{#1}^Z(h)}
+
+\newcommand{\z}[1]{Z_{#1}}
+\renewcommand{\d}[1]{D_{#1}}
+
+\newcommand{\tsum}{\sum_{t=1}^T}
+
+\iffalse
+\newcommand{\g10}[1]{\gamma_{10}^Z(h)}
+\newcommand{\g11}{\gamma_{11}^Z(h)}
+
+\newcommand{\g10'}{\gamma_{10}^{Z'}(h)}
+\newcommand{\g11'}{\gamma_{11}^{Z'}(h)}
+
+\newcommand{\GZ}{\Gamma^{Z'}(h)}
+\newcommand{\GZ'}{\Gamma^{Z'}(h)}
+\fi
+
+\newcommand{\lzh}{\ell^{Z}(h)}
+
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+
+%
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+
+\begin{document}
+
+\title{On the Compatibility of Privacy and Fairness}
+\author{Rachel Cummings\footnotemark[1] \and Varun Gupta\footnotemark[1] \and Dhamma Kimpara\footnotemark[1] \and Jamie Morgenstern\footnotemark[1]}
+
+\begin{abstract}
+  In this work, we investigate whether privacy and fairness can be
+  simultaneously achieved by a single classifier in several different
+  models. Some of the earliest work on fairness in algorithm design
+  defined fairness as a guarantee of similar outputs for "similar"
+  input data, a notion with tight technical connections to
+  differential privacy. We consider whether tensions exist between
+  differential privacy and statistical notions of fairness, namely
+  Equality of False Positives and Equality of False Negatives
+  (EFP/EFN). We show that even under full distributional access, there
+  are cases where the constraint of differential privacy precludes
+  exact EFP/EFN. We then turn to asking whether one can learn a
+  differentially private classifier which approximately satisfies
+  EFP/EFN, and show the existence of a PAC learner which is private
+  and approximately fair with high probability. We then conclude with
+  an discussion of several techniques for achieving privacy and
+  fairness, describing which of the former and latter may be
+  (in)compatible.
+\end{abstract}
+
+\maketitle
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{Georgia Institute of Technology. Email: \texttt{\{rachelc, vgupta74, dkimpara1, jamiemmt.cs\}@gatech.edu}.}
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\input{intro.tex}
+
+\input{prelims.tex}
+
+\input{exact.tex}
+
+\input{approx.tex}
+
+\input{efficient.tex}
+
+%\input{body.tex}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bib.bib}
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+>>>>>>> 5a4a8821fa04d333d8fffcf0456a9148244448d3

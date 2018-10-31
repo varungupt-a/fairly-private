@@ -74,7 +74,12 @@ One needs to construct a neighboring distribution where when considering a hypot
 
 
 
-\begin{lemma} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{\z{10}},\frac{1}{|Z_{11}|}, \frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1}, \frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1})$
+\begin{lemma} $\Gamma(h) = |\Pr\{h(x) = 1 | y=1, a =0\} - \Pr\{h(x) = 1 | y = 1, a = 1\}|$ has sensitivity $\max(\frac{1}{|\z{10}|},\frac{1}{|Z_{11}|},
+	\frac{\gamma_{10}}{|\z{10}|-1} + \frac{\gamma_{11}}{|Z_{11}|+1},
+	\frac{\gamma_{10}}{|\z{10}|+1} + \frac{\gamma_{11}}{|Z_{11}|-1},
+	\frac{1 - \gamma_{10}^Z}{|\z{10}|+1} + \frac{1 - \gamma_{11}^Z}{|Z_{11}|-1},
+	\frac{1 - \gamma_{10}^Z}{|\z{10}|-1} + \frac{1 - \gamma_{11}^Z}{|Z_{11}|+1}).
+	$
 \end{lemma}
 
 We examine two cases for neighboring databases $Z, Z'$:
@@ -130,7 +135,8 @@ and
 \end{align*}
 %
 Thus, we have
-$$|\Gamma^{Z'}(h)- \Gamma^{Z}(h)| = \zt_{10} + \zt_{11}= \frac{1 - \gamma_{10}^Z}{|\z{10}|+1} + \frac{1 - \gamma_{11}^Z}{|Z_{11}|-1}. $$
+$$|\Gamma^{Z'}(h)- \Gamma^{Z}(h)| = \zt_{10} + \zt_{11} =
+\frac{1 - \gamma_{10}^Z}{|\z{10}|+1} + \frac{1 - \gamma_{11}^Z}{|Z_{11}|-1}. $$
 \end{proof}
 
 \vg{possibly add/change to distributional}
